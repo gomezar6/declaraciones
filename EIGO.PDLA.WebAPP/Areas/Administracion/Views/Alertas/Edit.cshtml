@@ -1,0 +1,136 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.AlertaDto
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<h1>Editar</h1>
+
+<h4>Alerta</h4>
+<hr />
+<div class="row">
+    <div class="col">
+        <form asp-action="Edit">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="IdAlerta" />
+            <input type="hidden" asp-for="FechaFinProceso" />
+            <input type="hidden" asp-for="FechaInicioProceso" />
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="IdProceso" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <select asp-for="IdProceso" class="form-control col-8" disabled="disabled">
+                        @foreach (var item in ViewBag.IdProceso)
+                        {
+                            <option id="@item.Value" selected="@item.Selected">@item.Text</option>
+                        }
+                    </select>
+                    <input asp-for="IdProceso" type="hidden" />
+                </div>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="Estatus" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input type="checkbox" asp-for="Estatus" class="form-check-input ms-3" />
+                    <span asp-validation-for="Estatus" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="Diligenciado" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input type="checkbox" asp-for="Diligenciado" class="form-check-input ms-3" />
+                    <span asp-validation-for="Diligenciado" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="Fecha" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Fecha" class="form-control" />
+                    <span asp-validation-for="Fecha" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="Asunto" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Asunto" class="form-control" />
+                    <span asp-validation-for="Asunto" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="Titulo" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Titulo" class="form-control" />
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="SubTitulo" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="SubTitulo" class="form-control" />
+                    <span asp-validation-for="SubTitulo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="Cuerpo" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <textarea asp-for="Cuerpo" class="form-control"></textarea>
+                    <span asp-validation-for="Cuerpo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="AvisoConfidencialidad" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <textarea asp-for="AvisoConfidencialidad" class="form-control"></textarea>
+                    <span asp-validation-for="AvisoConfidencialidad" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="text-center m-3">
+                <input onClick="this.form.submit(); this.disabled=true; this.value='Guardando…'; " style="    width: 100px;" value="Guardar"  class="btn btn-primary" />
+                @if (ViewBag.Editable)
+                {
+                    <a href="@Url.Action("Edit","Procesos", new {id =Model.IdProceso, idTabs="alertas" })" class="btn btn-secondary m-2">Cancelar</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Details","Procesos", new {id =Model.IdProceso, idTabs="alertas" })" class="btn btn-secondary m-2">Cancelar</a>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    const interval = setInterval(() => {
+        if (typeof $ !== typeof (undefined)) {
+            clearInterval(interval);
+            $(document).ready(() => {
+                if ($('#Diligenciado')[0].checked) {
+                    $('#Fecha').parent().parent().hide();
+                }
+                $('#Diligenciado').click((evt) => {
+                    if (evt.target.checked) {
+                        $('#Fecha').parent().parent().hide();
+                    } else {
+                        $('#Fecha').parent().parent().show();
+                    }
+                });
+            });
+        }
+    });
+</script>

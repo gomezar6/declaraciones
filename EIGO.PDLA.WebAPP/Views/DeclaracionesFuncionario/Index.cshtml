@@ -1,0 +1,68 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.DeclaracionDTO
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Gestionar Declaración - Funcionariado</h1>
+<div class="col m-4 align-items-center">
+    <div class="col-4">
+        <label class="control-label">Proceso</label>
+    </div>
+    <div class="col-8">
+        <select class="form-control" id="selecProceso" onchange="GetDeclaracionesbyProcess()">
+            <option disabled selected value="0">Seleccione</option>
+            @if (Model.procesosFuncionario != null)
+            {
+                foreach (var item in Model.procesosFuncionario)
+                {
+                    <option data-Id="@item.IdProcesoNavigation.IdEstadoProcesoNavigation.NombreEstadoProceso" value="@item.IdProcesoNavigation.IdProceso">@item.IdProcesoNavigation.NombreProceso - @item.IdProcesoNavigation.IdEstadoProcesoNavigation.NombreEstadoProceso</option>
+                }
+            }
+        </select>
+    </div>
+</div>
+<table id="TableDeclaraciones" class="tablaBlue m-3 table table-striped table-hover  table-responsive">
+    <thead>
+        <tr>
+            <th>Acciones</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Formulario.Titulo)
+            </th>
+            <th>
+                Estatus de Declaración
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeclaracion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Formulario.RecibirEnFisico)
+            </th>
+             
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+
+<div class="modal modal-Preview" tabindex="-1"  role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sistema de Declaraciones </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="cancelarModal()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                 <p class="Mensaje"></p>
+            </div>
+           
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    <script src="~/js/DeclaracionList.js"></script>
+}
+}
+
+

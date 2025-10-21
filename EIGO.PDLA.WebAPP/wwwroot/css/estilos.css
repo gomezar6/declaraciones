@@ -1,0 +1,403 @@
+@font-face {
+  font-family: "Dosis";
+}
+* {
+  font-family: "Dosis", sans-serif;
+}
+
+body {
+  margin-bottom: 0px;
+}
+
+.bg-caf-blue {
+  background-color: #094A82;
+  color: white;
+}
+
+.menu {
+  min-width: 56px;
+  max-width: 240px;
+  min-height: calc(100vh - 43px);
+  min-height: -webkit-fill-available;
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+}
+
+.disabled {
+  background-color: #e9ecef;
+  opacity: 1;
+}
+
+.app-name {
+  vertical-align: top;
+  background: none;
+  height: 42px;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-left: 2px solid #ccc;
+  padding: 6px 0 0 10px;
+  font-size: 17px;
+  display: inline-block;
+  color: #606060;
+  line-height: 16px;
+}
+
+/* Estilos BS Editados*/
+.navbar {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.navbar-brand {
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.dropdown-menu[data-bs-popper] {
+  left: auto;
+  right: 0;
+}
+
+/* Fin*/
+.top-nav {
+  padding: 0;
+}
+
+.top-nav > li {
+  display: inline-block;
+  float: left;
+}
+
+.top-nav > li > a {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  line-height: 20px;
+  color: #015382;
+  cursor: pointer;
+}
+
+.top-nav > li > a:hover,
+.top-nav > li > a:focus,
+.top-nav > .open > a,
+.top-nav > .open > a:hover,
+.top-nav > .open > a:focus {
+  color: #fff;
+  background-color: #013a5b;
+}
+
+.dropdown-menu.show {
+  float: left;
+  position: absolute;
+  margin-top: 0;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background-color: #fff;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+.top-nav > .open > .dropdown-menu > li > a {
+  white-space: normal;
+}
+
+.navbar-dark .navbar-toggler {
+  background: #c6c9d2;
+  width: 100%;
+}
+
+.btn-primary {
+  color: #FFFFFF;
+  background-color: #094A82;
+  border-color: #094A82;
+}
+
+.btn {
+  border-radius: 0;
+}
+
+.tablaBlue > thead {
+  background: #E4EFF5;
+  text-align: center;
+  color: #003A5B;
+}
+
+.tablaBlue > :not(caption) > * > * {
+  border-bottom-width: 0px;
+}
+
+.tablaBlue > tbody, .table-striped > tbody > tr:nth-of-type(odd) {
+  color: #808080;
+}
+
+.tablaBlue > tbody > tr > td > div {
+  max-height: 48px;
+  overflow-y: hidden;
+}
+
+main {
+  width: 100%;
+}
+
+footer {
+  display: none;
+}
+
+li.nav-item:hover {
+  background: #015382;
+}
+
+button.navbar-toggler.m-2.shadow-none {
+  margin: 0px !important;
+  border-radius: 0px;
+}
+
+.tablaBlue td {
+  max-width: 410px;
+}
+
+button.accordion-button-smallPadding {
+  padding: 8px;
+  font-weight: bold;
+  color: #003A5B !important;
+  background: #f2f2f2 !important;
+}
+
+.accordion-item:first-of-type {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.accordion-item {
+  border: 0px;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active, .nav-link:focus, .nav-link:hover, .nav-tabs .nav-link.active:hover {
+  color: white;
+  background-color: #094A82;
+}
+
+div#procesoTabContent {
+  margin-top: 10px;
+}
+
+.nav-tabs .nav-link {
+  color: #333333;
+}
+
+.nav-link {
+  color: #555555;
+}
+
+textarea {
+  height: 100px;
+}
+
+.tablaWithTextarea > tbody > tr > td > div {
+  max-height: 100px;
+  height: 100px;
+  overflow-y: hidden;
+}
+
+.hiddenElement {
+  display: none;
+}
+
+.nav-tabs .nav-link:hover {
+  color: #FFFFFF;
+}
+
+.tituloDeclaracion {
+  color: #777777;
+}
+
+select[name*=NombreCompleto] option:last-child {
+  background: #015382;
+  font-weight: bold;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+a.tableButton, a.tableButton i {
+  text-align: center;
+  width: 26px;
+  height: 20px;
+}
+
+.TablaParticipacion th:nth-child(6),
+.TablaParticipacion tr :nth-child(6) .TablaResponsabilidad th:nth-child(6),
+.TablaResponsabilidad tr :nth-child(6) {
+  width: 190px;
+}
+
+.TablaResponsabilidad th:nth-child(8),
+.TablaResponsabilidad tr :nth-child(8) {
+  width: 100px;
+}
+
+.TablaParticipacion th:nth-child(7),
+.TablaParticipacion tr :nth-child(7) {
+  width: 100px;
+}
+
+@media (min-width: 1400px) {
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: calc(100% - 50px);
+  }
+}
+main.pb-3.ps-3 {
+  margin-left: 50px !important;
+}
+
+.menu {
+  position: absolute;
+  z-index: 2;
+}
+
+.TableNacionalidad {
+  width: 100% !important;
+}
+
+.tablaBlue {
+  width: 100% !important;
+  min-width: 1100px;
+  overflow-x: scroll;
+}
+
+.tablaBlue .spinner-border {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tablaBlue .spinner-border {
+  float: left;
+}
+
+input#IdCiudad, .TablaParticipacionEdit th:nth-child(1), .TablaParticipacionEdit td:nth-child(1), .TablaParticipacionEdit th:nth-child(8), .TablaParticipacionEdit td:nth-child(8),
+.TablaResponsabilidadEdit th:nth-child(1), .TablaResponsabilidadEdit td:nth-child(1), .TablaResponsabilidadEdit th:nth-child(7), .TablaResponsabilidadEdit td:nth-child(7) {
+  display: none;
+}
+
+/* Oculta select en tabla Participacion */
+.TablaParticipacionEdit td:nth-child(8), .TablaParticipacionEdit td:nth-child(9), .TablaParticipacionEdit td:nth-child(10), .TablaParticipacionEdit .container__selectAnio {
+  display: none !important;
+}
+
+/* Oculta select en tabla Responsabilidad */
+.TablaResponsabilidadEdit td:nth-child(9), .TablaResponsabilidadEdit td:nth-child(10), .TablaResponsabilidadEdit .container__selectAnio {
+  display: none !important;
+}
+
+/* Tabla Entidades Participacion */
+.TablaEntidadesParticipacionEdit th:nth-child(1), .TablaEntidadesParticipacionEdit th:nth-child(7), .TablaEntidadesParticipacionEdit th:nth-child(8),
+.TablaEntidadesParticipacionEdit td:nth-child(1), .TablaEntidadesParticipacionEdit td:nth-child(7), .TablaEntidadesParticipacionEdit td:nth-child(8) {
+  display: none;
+}
+
+th.th__cargo__TableEntidadecargo, th.th__cargo__TableEntidadecargo2 {
+  width: 10rem !important;
+}
+
+th.th__NombreCompleto__TableEntidadesParticipacion {
+  width: 18rem !important;
+}
+
+th.th__VinculoFamiliar__TableEntidadesParticipacion {
+  width: 9rem !important;
+}
+
+th.th__Pais__TableEntidadesParticipacion {
+  width: 9rem !important;
+}
+
+th.th__NombreEntidad__TableEntidadesParticipacion {
+  width: 16rem !important;
+}
+
+th.th__Participacion__TableEntidadesParticipacion {
+  width: 8rem !important;
+}
+
+th.th__MesyAnio__TableEntidadesParticipacion {
+  width: 11rem !important;
+}
+
+td.mes__anio__container {
+  display: flex !important;
+}
+
+.mes__anio__ShowingOtro {
+  height: 91px;
+  align-items: flex-start;
+}
+
+th.th__Accion__TableEntidadesParticipacion {
+  width: 100px !important;
+}
+
+/* --- */
+.iconRed {
+  color: #D12A2A;
+}
+
+.disabled i.fas.fa-trash.iconRed, a.tableButton.tableButtonEdit.disabled {
+  color: #666666 !important;
+}
+
+a.disabled {
+  pointer-events: none;
+  color: #666666;
+}
+
+.dataTables_info, .dataTables_length {
+  margin-left: 14px;
+}
+
+.modal {
+  background: rgba(165, 165, 165, 0.4901960784);
+}
+
+iframe {
+  border: 0;
+  width: 100%;
+  height: 900px;
+}
+
+.nav-link:disabled {
+  background: #f2f2f2;
+  color: #777777;
+}
+
+#DilegenciarDeclaracion.Bloqueado, .Bloqueado {
+  color: #fff;
+  background-color: #5893eb;
+  border-color: #5893eb;
+}
+
+.modal-Preview, .modal-Preview .modal-dialog {
+  max-width: 10000px;
+  /* width: 1200px; */
+}
+
+iframe.iframe-Preview {
+  border: 0;
+  width: 100%;
+  height: 1400px;
+  overflow: hidden !important;
+}
+
+.filterTable {
+  display: none;
+}
+
+span.MsgTable {
+  color: #0a58ca;
+  font-weight: bold;
+}
+
+a.tableButton {
+  cursor: pointer;
+}

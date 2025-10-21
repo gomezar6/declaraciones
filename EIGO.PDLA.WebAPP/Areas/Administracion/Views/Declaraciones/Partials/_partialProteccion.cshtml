@@ -1,0 +1,56 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.DeclaracionDTO
+
+<div class="container">
+    <div class="row m-2 align-items-center">
+        <p>  Yo,<strong>
+                @if (Model.Formulario.Preview == true)
+                {
+                    <span>_________________________________________________</span>
+                }
+                else
+                {
+                    @Model.Funcionario.Nombres}&nbsp;@{@Model.Funcionario.Apellidos
+                }
+
+            </strong>en mi calidad de (describir el tipo de relación contractual con CAF):</p>
+        <textarea asp-for="Cargo" name="Cargo" class="form-control m-2" onchange="ValidarDisclaimer() "  readonly="readonly" ></textarea>
+    </div>
+</div>
+
+<hr />
+@for (int i = 0; i < Model.Formulario.ProcesoDisclaimerFormulario.Count(); i++)
+{
+    if (i == 0)
+    {
+        <div class="row m-2 ">
+            <p><strong>@Model.Formulario.Texto1</strong></p>
+        </div>
+    }
+    else if (i == 1)
+    {
+        <div class="row m-2 ">
+            <p><strong>@Model.Formulario.Texto2</strong></p>
+        </div>
+    }
+    else if (i == 2)
+    {
+        <div class="row m-2 ">
+            <p><strong>@Model.Formulario.Texto3</strong></p>
+        </div>
+    }
+      else if (i == 3)
+    {
+        <div class="row m-2 ">
+            <p><strong>@Model.Formulario.Texto4</strong></p>
+        </div>
+    }
+    <div class="container m-4">
+        <div class="text-start ">
+            <input type="checkbox" name="CheckDeclaracion" onchange="ValidarDisclaimer() " />
+            @Model.Formulario.ProcesoDisclaimerFormulario.ElementAtOrDefault(i).Disclaimer.Texto
+        </div>
+    </div>
+}
+<div class="row m-2 ">
+    <p><i>@Model.Formulario.Texto4</i></p>
+</div>

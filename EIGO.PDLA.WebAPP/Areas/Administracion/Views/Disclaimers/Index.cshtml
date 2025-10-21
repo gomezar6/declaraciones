@@ -1,0 +1,51 @@
+﻿@model IEnumerable<EIGO.PDLA.Common.Models.Disclaimer>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Disclaimers</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary m-2">Create New</a>
+</p>
+<table id="disclaimerTable" class="tablaBlue m-3 table table-striped table-hover  table-responsive">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Texto)
+            </th>
+      
+     
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdDisclaimer"><i class="fa fa-edit"></i></a> |
+                <a asp-action="Details" asp-route-id="@item.IdDisclaimer"><i class="fa fa-search"></i></a> |
+                @*se valida si el proceso se encuentra en el estado por configurar *@
+               @if(item.IdProcesoNavigation.IdEstadoProceso == 1 ){
+                <a asp-action="Delete" asp-route-id="@item.IdDisclaimer"><i class="fas fa-trash iconRed"></i></a>
+
+
+                }
+               
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Texto)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+

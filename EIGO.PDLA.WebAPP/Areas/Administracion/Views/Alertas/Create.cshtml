@@ -1,0 +1,93 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.AlertaDto
+
+@{
+    ViewData["Title"] = "Crear";
+}
+
+<h1>Crear</h1>
+
+<h4>Alerta</h4>
+<hr />
+<div class="row">
+    <div class="col">
+        <form asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="FechaFinProceso"/>
+            <input type="hidden" asp-for="FechaInicioProceso"/>
+            <div class="form-group">
+                <label asp-for="IdProceso" class="control-label"></label>
+                <select asp-for="IdProceso" class="form-control" disabled="disabled">
+                    @foreach (var item in ViewBag.IdProceso)
+                    {
+                        <option id="@item.Value" selected="@item.Selected">@item.Text</option> 
+                    }
+                </select>
+                <input asp-for="IdProceso" type="hidden" value="@ViewBag.SelectedValue" />
+            </div>
+            <div class="form-group mt-3 mb-3">
+                <label asp-for="Estatus" class="control-label"></label>
+                <input type="checkbox" asp-for="Estatus" class="form-check-input ms-3" />
+                <span asp-validation-for="Estatus" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3 mb-3">
+                <label asp-for="Diligenciado" class="control-label"></label>
+                <input type="checkbox" asp-for="Diligenciado" class="form-check-input ms-3" />
+                <span asp-validation-for="Diligenciado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fecha" class="control-label"></label>
+                <input asp-for="Fecha" class="form-control" />
+                <span asp-validation-for="Fecha" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Asunto" class="control-label"></label>
+                <input asp-for="Asunto" class="form-control" />
+                <span asp-validation-for="Asunto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Titulo" class="control-label"></label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubTitulo" class="control-label"></label>
+                <input asp-for="SubTitulo" class="form-control" />
+                <span asp-validation-for="SubTitulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cuerpo" class="control-label"></label>
+                <textarea asp-for="Cuerpo" class="form-control"></textarea>
+                <span asp-validation-for="Cuerpo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AvisoConfidencialidad" class="control-label"></label>
+                <textarea asp-for="AvisoConfidencialidad" class="form-control"></textarea>
+                <span asp-validation-for="AvisoConfidencialidad" class="text-danger"></span>
+            </div>
+            <div class="form-group p-2">
+                <input onClick="this.form.submit(); this.disabled=true; this.value='Creando…'; " style="    width: 90px;" value="Crear" class="btn btn-primary" />
+                @*<a asp-action="edit" asp-controller="procesos" asp-route-id="@ViewBag.SelectedValue" class="btn btn-secondary">Cancelar</a>*@
+                     <a href="@Url.Action("Edit","Procesos", new {id = ViewBag.SelectedValue, idTabs="alertas" })" class="btn btn-secondary m-2">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    const interval = setInterval(()=>{
+        if(typeof $ !== typeof(undefined)){
+            clearInterval(interval);
+            $(document).ready(()=>{
+                if($('#Diligenciado')[0].checked){
+                    $('#Fecha').parent().hide();
+                }
+                $('#Diligenciado').click((evt)=>{
+                    if(evt.target.checked){
+                        $('#Fecha').parent().hide();
+                    } else {
+                        $('#Fecha').parent().show();
+                    }
+                });
+            });
+        }
+    });
+</script>

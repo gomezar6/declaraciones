@@ -1,0 +1,336 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.ProcesoDto
+
+@{
+    ViewData["Title"] = "Eliminar";
+}
+
+<h1>Eliminar</h1>
+
+<h3>¿Confirma que desea eliminar el siguiente Proceso?</h3>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs" id="procesoTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active"
+                        id="proceso-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#proceso"
+                        type="button"
+                        role="tab"
+                        aria-controls="proceso"
+                        aria-selected="true">
+                    Proceso
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link"
+                        id="alertas-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#alertas"
+                        type="button"
+                        role="tab"
+                        aria-controls="alertas"
+                        aria-selected="false">
+                    Alertas
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link"
+                        id="disclaimers-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#disclaimers"
+                        type="button"
+                        role="tab"
+                        aria-controls="disclaimers"
+                        aria-selected="false">
+                    Disclaimers
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link"
+                        id="formularios-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#formularios"
+                        type="button"
+                        role="tab"
+                        aria-controls="formularios"
+                        aria-selected="false">
+                    Formularios
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link"
+                        id="funcionarios-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#funcionarios"
+                        type="button"
+                        role="tab"
+                        aria-controls="funcionarios"
+                        aria-selected="false">
+                    Funcionarios
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="procesoTabContent">
+            <div class="tab-pane fade show active" id="proceso" role="tabpanel" aria-labelledby="proceso-tab">
+                <form asp-action="Delete">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="IdEstadoProceso" />
+                    <input type="hidden" asp-for="IdProceso" />
+                    <div class="form-group">
+                        <label asp-for="IdEstadoProceso" class="control-label"></label>
+                        <div class="form-control disabled">@Html.DisplayFor(p =>p.EstadoProceso.NombreEstadoProceso)</div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NombreProceso" class="control-label"></label>
+                        <input asp-for="NombreProceso" class="form-control disabled" />
+                        <span asp-validation-for="NombreProceso" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaInicio" class="control-label"></label>
+                        <input asp-for="FechaInicio" class="form-control disabled" />
+                        <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaFin" class="control-label"></label>
+
+
+                        @if (Model.FechaFin.Value.Year.ToString() == "9999")
+                        {
+                            <input asp-for="FechaFin" class="form-control disabled" value="" />
+                        }
+                        else
+                        {
+                            <input asp-for="FechaFin" class="form-control disabled" />
+                        }
+
+                        <span asp-validation-for="FechaFin" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Corporativo" class="control-label"></label>
+                        <input type="checkbox" asp-for="Corporativo" class="form-check-input ms-3 disabled" disabled="disabled" />
+                        <span asp-validation-for="Corporativo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Observaciones" class="control-label"></label>
+                        <textarea asp-for="Observaciones" class="form-control disabled" disabled="disabled"></textarea>
+                        <span asp-validation-for="Observaciones" class="text-danger"></span>
+                    </div>
+                    <div class="text-center m-3">
+                        <input onClick="this.form.submit(); this.disabled=true; this.value='Eliminando…'; " style="    width: 100px;" value="Eliminar" class="btn btn-danger" />
+                        <a asp-action="Index" asp-area="Administracion" asp-controller="Procesos" class="btn btn-secondary">Regresar</a>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmacionModal" disabled="disabled">
+                            Configurado
+                        </button>
+                    </div>
+                </form>
+                @* <div>
+                <h2>Pendientes del proceso</h2>
+                <ul>
+                @foreach(var item in ViewBag.Errors)
+                {
+                <li>@item</li>
+                }
+                </ul>
+                </div>*@
+            </div>
+            <div class="tab-pane fade" id="alertas" role="tabpanel" aria-labelledby="alertas-tab">
+                <table class="tablaBlue m-3 table table-striped table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                @Html.DisplayNameFor(model=> model.Alertas.FirstOrDefault().Estatus)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().Fecha)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().Asunto)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().Titulo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().SubTitulo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().Cuerpo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().AvisoConfidencialidad)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Alertas)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Edit" asp-area="Administracion" asp-controller="Alertas" asp-route-idproceso="@Model.IdProceso" asp-route-id="@item.IdAlerta" class="disabled">Editar</a> |
+                                    <a asp-action="Details" asp-area="Administracion" asp-controller="Alertas" asp-route-id="@item.IdAlerta" class="disabled">Detalles</a> |
+                                    <a asp-action="Delete" asp-area="Administracion" asp-controller="Alertas" asp-route-idproceso="@Model.IdProceso" asp-route-id="@item.IdAlerta" class="disabled">Eliminar</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Estatus)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Fecha)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Asunto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Titulo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubTitulo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cuerpo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AvisoConfidencialidad)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="disclaimers" role="tabpanel" aria-labelledby="disclaimers-tab">
+                <table id="disclaimerTable" class="tablaBlue m-3 table table-striped table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Disclaimers.FirstOrDefault().Titulo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Disclaimers.FirstOrDefault().Texto)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Disclaimers)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Edit" asp-area="Administracion" asp-controller="Disclaimers" asp-route-idproceso="@Model.IdProceso" asp-route-id="@item.IdDisclaimer" class="disabled">Editar</a> |
+                                    <a asp-action="Details" asp-area="Administracion" asp-controller="Disclaimers" asp-route-id="@item.IdProceso" class="disabled">Detalles</a> |
+                                    <a asp-action="Delete" asp-area="Administracion" asp-controller="Disclaimers" asp-route-idproceso="@Model.IdProceso" asp-route-id="@item.IdDisclaimer" class="disabled">Eliminar</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Titulo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Texto)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="formularios" role="tabpanel" aria-labelledby="formularios-tab">
+                <table id="formularioTable" class="tablaBlue m-3 table table-striped table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Formularios.FirstOrDefault().TipoDeclaracion.NombreDeclaracion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Formularios.FirstOrDefault().VersionFormulario)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model =>   model.Formularios.FirstOrDefault().TipoDeclaracion)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Formularios)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Edit" asp-area="Administracion" asp-controller="Formularios" asp-route-idproceso="@Model.IdProceso" asp-route-id="@item.IdFormulario" class="disabled">Editar</a> |
+                                    <a asp-action="Details" asp-area="Administracion" asp-controller="Formularios" asp-route-idproceso="@Model.IdProceso" asp-route-id="@item.IdFormulario" class="disabled">Ver</a> |
+                                    <a asp-action="Delete" asp-area="Administracion" asp-controller="Formularios" asp-route-idproceso="@Model.IdProceso" asp-route-id="@item.IdFormulario" class="disabled">Eliminar</a>
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoDeclaracion.NombreDeclaracion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VersionFormulario)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoDeclaracion.NombreDeclaracion)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="funcionarios" role="tabpanel" aria-labelledby="funcionarios-tab">
+                <form id="funcionariosForm">
+                    <table id="funcionariosTable" class="tablaBlue m-3 table table-striped table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Funcionarios.FirstOrDefault().Apellidos)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Funcionarios.FirstOrDefault().Nombres)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Funcionarios.FirstOrDefault().Cargo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Funcionarios.FirstOrDefault().LugarTrabajo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Funcionarios.FirstOrDefault().Siglas)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Funcionarios.FirstOrDefault().UnidadOrganizacional)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Funcionarios != null)
+                                foreach (var item in Model.Funcionarios)
+                                {
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" name="funcionarios" value="@item.IdFuncionario" @(@item.IsSelected || Model.Corporativo ? "checked=\"checked\"" : "") disabled="disabled" />
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Apellidos)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Nombres)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Cargo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LugarTrabajo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Siglas)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UnidadOrganizacional)
+                                        </td>
+                                    </tr>
+                                }
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

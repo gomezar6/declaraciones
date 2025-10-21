@@ -1,0 +1,47 @@
+﻿@model EIGO.PDLA.Common.Models.Disclaimer
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Detalles</h1>
+
+<div>
+    <h4>Disclaimer</h4>
+    <hr />
+    <dl class="row">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Texto)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Texto)
+        </dd>
+
+        @*   <dt class = "col-sm-2" hidden>
+            @Html.DisplayNameFor(model => model.IdProcesoNavigation)
+            </dt>
+            <dd class = "col-sm-10" hidden>
+            @Html.DisplayFor(model => model.IdProcesoNavigation.NombreProceso)
+            </dd>*@
+    </dl>
+</div>
+<div class="text-center m-3">
+    <a href="@Url.Action("Edit","Disclaimers", new {id = Model.IdDisclaimer,proceso = Model.IdProceso})" class="btn btn-primary m-2">Editar</a>
+    @*<a asp-action="edit" asp-controller="procesos" asp-route-id="@Model.IdProceso" class="btn btn-secondary">Regresar</a>*@
+    @if (ViewBag.Editable)
+    {
+        <a href="@Url.Action("Edit","Procesos", new {id = Model.IdProceso, idTabs="disclaimers" })" class="btn btn-secondary m-2">Regresar</a>
+    }
+    else
+    {
+        <a href="@Url.Action("Details","Procesos", new {id = Model.IdProceso, idTabs="disclaimers" })" class="btn btn-secondary m-2">Regresar</a>
+    }
+
+</div>

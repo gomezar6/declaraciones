@@ -1,0 +1,80 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.SincronizacionDTO
+@{
+    ViewData["Title"] = "Sincronización";
+}
+
+<h1>Detalles</h1>
+
+<h4>Sincronización</h4>
+<hr />
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <label asp-for="Fecha" class="control-label"></label>
+            <input asp-for="Fecha" class="form-control" disabled="disabled" />
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="TipoProceso" class="control-label"></label>
+            <input asp-for="TipoProceso" class="form-control" disabled="disabled" />
+            <span asp-validation-for="TipoProceso" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EstatusSincronizacion" class="control-label"></label>
+            <input asp-for="EstatusSincronizacion" class="form-control" disabled="disabled" />
+            <span asp-validation-for="EstatusSincronizacion" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CantidadRegistros" class="control-label"></label>
+            <input asp-for="CantidadRegistros" class="form-control" disabled="disabled" />
+            <span asp-validation-for="CantidadRegistros" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RegistrosInsertados" class="control-label"></label>
+            <input asp-for="RegistrosInsertados" class="form-control" disabled="disabled" />
+            <span asp-validation-for="RegistrosInsertados" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RegistrosModificados" class="control-label"></label>
+            <input asp-for="RegistrosModificados" class="form-control" disabled="disabled" />
+            <span asp-validation-for="RegistrosModificados" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RegistrosConErrores" class="control-label"></label>
+            <input asp-for="RegistrosConErrores" class="form-control" disabled="disabled" />
+            <span asp-validation-for="RegistrosConErrores" class="text-danger"></span>
+        </div>
+        <div class="form-group p-2">
+            <a class="btn btn-secondary" asp-action="Index">Regresar</a>
+            <form asp-action="ExportDetails" method="post" style="display:inline">
+                <input asp-for="IdSincronizacion" type="hidden" name="id"/>
+                <input type="submit" class="btn btn-primary" value="Exportar">
+            </form>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SincronizacionDetalles.FirstOrDefault().Mensajes)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.SincronizacionDetalles)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mensajes)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

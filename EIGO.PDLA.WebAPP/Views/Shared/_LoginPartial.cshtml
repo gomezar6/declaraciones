@@ -1,0 +1,24 @@
+﻿@using System.Security.Principal
+
+<ul class="top-nav navbar-right">
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <li class="nav-item dropdown">
+            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                <i class="fas fa-user fa-lg"></i>
+                @User.Claims.Where(c=>c.Type == "name").FirstOrDefault()?.Value <strong class="caret"></strong>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut"><i class="fa fa-fw fa-power-off"></i> Cerrar mi sesión</a>
+                </li>
+            </ul>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">Iniciar sesión</a>
+        </li>
+    }
+</ul>

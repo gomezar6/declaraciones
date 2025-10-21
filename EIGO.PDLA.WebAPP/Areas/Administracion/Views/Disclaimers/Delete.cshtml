@@ -1,0 +1,46 @@
+﻿@model EIGO.PDLA.Common.Models.Disclaimer
+@{
+    ViewData["Title"] = "Delete";
+}
+
+
+<h1>Eliminar</h1>
+
+<h3>¿Confirma que desea eliminar el siguiente Disclaimer?</h3>
+<hr />
+<div>
+    <br />
+    <dl class="row">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Texto)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Texto)
+        </dd>
+        <dt class="col-sm-2 hiddenElement">
+            @Html.DisplayNameFor(model => model.IdProceso)
+        </dt>
+        <dd class="col-sm-10 hiddenElement">
+            @Html.DisplayFor(model => model.IdProceso)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+
+
+
+        <div class="text-center m-3 btn-Control-Form">
+            <input type="hidden" asp-for="IdDisclaimer" />
+            <input onClick="this.form.submit(); this.disabled=true; this.value='Eliminando…'; " style="    width: 100px;" value="Eliminar" class="btn btn-danger" />
+     @*       <a href="@Url.Action("Edit","Procesos", new {id = Model.IdProceso})" class="btn btn-secondary m-2">Cancelar</a>*@
+            <a href="@Url.Action("Edit","Procesos", new {id = Model.IdProceso, idTabs="disclaimers" })" class="btn btn-secondary m-2">Cancelar</a>
+        </div>
+    </form>
+</div>

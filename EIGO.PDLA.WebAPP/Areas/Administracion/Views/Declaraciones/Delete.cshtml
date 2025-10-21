@@ -1,0 +1,89 @@
+﻿@model EIGO.PDLA.Common.Models.Formulario
+@{
+    ViewData["Title"] = "Delete";
+}
+
+
+<h1>Eliminar</h1>
+
+<h3>¿Confirma que desea eliminar la siguiente declaración?</h3>
+<div>
+    <h4>Formulario</h4>
+    <hr />
+    <dl class="row">
+      
+      <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdFormulario)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdFormulario)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdProceso)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdProceso)
+        </dd>
+         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VersionFormulario)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VersionFormulario)
+        </dd>
+      
+         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Encabezado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Encabezado)
+        </dd>
+         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RecibirEnFisico)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RecibirEnFisico)
+        </dd>
+         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PiePagina)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PiePagina)
+        </dd>
+           <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Texto1)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Texto1)
+        </dd>
+
+           <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Texto2)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Texto2)
+        </dd>
+
+           <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Texto3)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Texto3)
+        </dd>
+
+        
+           <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Texto4)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Texto4)
+        </dd>
+
+
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdFormulario" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> 
+  <a href="@Url.Action("Edit","Procesos", new {id = Model.IdProceso})" class="btn btn-secondary m-2">Cancelar</a>
+    </form>
+</div>

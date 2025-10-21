@@ -1,0 +1,70 @@
+﻿@model IEnumerable<EIGO.PDLA.WebAPP.Areas.Administracion.DTO.SincronizacionDTO>
+
+@{
+    ViewData["Title"] = "Sincronizaciones";
+}
+
+<h1>Sincronizaciones</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Start">Iniciar sincronización</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoProceso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstatusSincronizacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantidadRegistros)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrosInsertados)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrosModificados)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrosConErrores)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.Fecha.ToLocalTime()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoProceso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstatusSincronizacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantidadRegistros)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrosInsertados)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrosModificados)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrosConErrores)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.IdSincronizacion">Detalles</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

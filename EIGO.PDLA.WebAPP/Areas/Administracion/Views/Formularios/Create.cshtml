@@ -1,0 +1,314 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.FormularioDTO
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Crear Formulario</h1>
+
+<h4></h4>
+<hr />
+<div class="row">
+    <div class="col">
+        <form asp-action="Create" id="SummitForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+         
+
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button accordion-button-smallPadding " type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapsePrincipal" aria-expanded="true" aria-controls="panelsStayOpen-collapsePrincipal">
+                            Principal
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapsePrincipal" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                           <div class="row m-2 align-items-center">
+                               <div class="col-4">
+                                <label asp-for="IdProceso" class="control-label"></label>
+                                        </div>
+                                <div class="col-8">
+                                <select asp-for="IdProceso" class="form-control" asp-items="ViewBag.IdProceso"  disabled="disabled">
+                                    
+
+                                </select>
+                                <input asp-for="IdProceso" type="hidden" value="@ViewBag.SelectedValue" />
+                                 </div>
+                            </div>
+                             <div class="row m-2 align-items-center">
+                               <div class="col-4">
+                                <label asp-for="IdTipoDeclaracion" class="control-label"></label>
+                                        </div>
+                                <div class="col-8">
+                                <select asp-for="IdTipoDeclaracion" class="form-control" asp-items="ViewBag.IdTipo" id="selecTipoFormulario" OnChange="FormularioTipoDeclaracion_SelectedIndexChanged() ">
+                                      <option value="0" disabled  selected>Seleccione</option>
+                                </select>
+                                   <span asp-validation-for="IdTipoDeclaracion" class="text-danger"></span>
+                                 </div>
+                            </div>
+                            <div class="row m-2 align-items-center">
+                                <div class="col-4">
+                                    <label asp-for="Titulo" class="control-label"></label>
+                                </div>
+                                <div class="col-8">
+                                    <input asp-for="Titulo" class="form-control" />
+                                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row m-2 align-items-center">
+                                <div class="col-4">
+                                    <label asp-for="VersionFormulario" class="control-label"></label>
+                                </div>
+                                <div class="col-8">
+                                    <input asp-for="VersionFormulario" class="form-control"  min="0" />
+                                    <span asp-validation-for="VersionFormulario" class="text-danger"></span>
+                                </div>
+                            </div>
+                          
+                            <div class="row m-2 align-items-center">
+                                <div class="col-4">
+                                    <label asp-for="Encabezado" class="control-label"></label>
+                                </div>
+                                <div class="col-8">
+                                    <textarea asp-for="Encabezado" class="form-control"></textarea>
+                                    <span asp-validation-for="Encabezado" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row m-2 align-items-center">
+                                <div class="col-4">
+                                    <label asp-for="PiePagina" class="control-label"></label>
+                                </div>
+                                <div class="col-8">
+                                    <textarea asp-for="PiePagina" class="form-control"></textarea>
+                                    <span asp-validation-for="PiePagina" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row m-2 align-items-center">
+                                <div class="col-4">
+                                    <label asp-for="RecibirEnFisico" class="control-label"></label>
+                                </div>
+                                <div class="col-8">
+                                    <input type="checkbox" asp-for="RecibirEnFisico" class="form-check-input ms-3" />
+
+                                    <span asp-validation-for="RecibirEnFisico" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button accordion-button-smallPadding " type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSecciones" aria-expanded="true" aria-controls="panelsStayOpen-collapseSecciones">
+                            Texto en Secciones de Declaración
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseSecciones" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+
+                            <table id="seccionesTable" class="tablaBlue tablaWithTextarea m-3 table table-striped table-hover  table-responsive">
+                                <thead>
+                                    <tr>
+                                     
+                                        <th>
+                                            Nro sección
+                                        </th>
+                                        <th>
+                                            Texto Formulario
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                       
+                                        <td class="text-center">
+                                            1
+                                        </td>
+                                        <td>
+                                            <div class="row m-2 align-items-center">
+                                             @*   <div class="col-4">
+                                                    <label asp-for="Texto1" class="control-label"></label>
+                                                </div>*@
+                                                <div class="col-12">
+                                                    <textarea asp-for="Texto1" class="form-control" disabled="disabled"></textarea>
+                                                    <span asp-validation-for="Texto1" class="text-danger"></span>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                     
+                                        <td class="text-center">
+                                            2
+                                        </td class="text-center">
+                                        <td>
+                                            <div class="row m-2 align-items-center">
+                                             @*   <div class="col-4">
+                                                    <label asp-for="Texto2" class="control-label"></label>
+                                                </div>*@
+                                                <div class="col-12">
+                                                    <textarea asp-for="Texto2" class="form-control" disabled="disabled"></textarea>
+                                                    <span asp-validation-for="Texto2" class="text-danger"></span>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                     
+                                        <td class="text-center">
+                                            3
+                                        </td>
+                                        <td>
+                                            <div class="row m-2 align-items-center">
+                                              @*  <div class="col-4">
+                                                    <label asp-for="Texto3" class="control-label"></label>
+                                                </div>*@
+                                                <div class="col-12">
+                                                    <textarea asp-for="Texto3" class="form-control" disabled="disabled"></textarea>
+                                                    <span asp-validation-for="Texto3" class="text-danger" ></span>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                     
+                                        <td class="text-center"> 
+                                            4
+                                        </td>
+                                        <td>
+                                            <div class="row m-2 align-items-center">
+                                               @* <div class="col-4">
+                                                    <label asp-for="Texto4" class="control-label"></label>
+                                                </div>*@
+                                                <div class="col-12">
+                                                    <textarea asp-for="Texto4" class="form-control" disabled="disabled"> </textarea>
+                                                    <span asp-validation-for="Texto4" class="text-danger"></span>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+
+
+                                      <tr class="onlyInversiones" style="display:none" >
+                                     
+                                        <td class="text-center"> 
+                                            Conflicto de interés
+                                        </td>
+                                        <td>
+                                            <div class="row m-2 align-items-center">
+                                               @* <div class="col-4">
+                                                    <label asp-for="Texto4" class="control-label"></label>
+                                                </div>*@
+                                                <div class="col-12">
+                                                    <textarea asp-for="Texto5" class="form-control" disabled="disabled"> </textarea>
+                                                    <span asp-validation-for="Texto5" class="text-danger"></span>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTree">
+                     <button class="accordion-button accordion-button-smallPadding " type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseDisclimer" aria-expanded="true" aria-controls="panelsStayOpen-collapseDisclimer">
+                            Disclaimers en el formulario
+                        </button>
+
+                        
+                    </h2>
+                    <div id="panelsStayOpen-collapseDisclimer" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTree">
+                        <div class="accordion-body">
+                             <div class="row m-2 align-items-center">
+                               <div class="col-2">
+                            
+                                        </div>
+                                <div class="col-4">
+                                <select  class="form-control" id="selecDisclaimer" asp-items="ViewBag.IdDisclaimer">
+                                      <option disabled  selected value="0">Seleccione</option>
+                                </select>
+                                 </div>
+                                  <div class="col-1">
+                                <a  class="btn btn-primary m-2" onclick="AddRow()">Agregar</a>  
+                                 </div>
+                            </div>
+                        </div>
+                        <hr />
+                  
+                        <table class="table TableDisclaimer " id="TableDisclaimer">
+                          <thead>
+                            <tr>
+
+                              <th scope="col">Eliminar</th>
+                              <th scope="col">Disclaimer</th>
+                               <th scope="col" class="hiddenElement">Texto</th>
+
+                            </tr>
+                          </thead>
+                          <tbody class="bodyDisclaimer">
+                          
+                           
+                           
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="text-center m-3">
+                <input disabled="disabled" id="VistaPrevia" class="btn btn-primary m-2 disabled" title="Debe guardar para poder ver la vista previa" value="Vista Previa" />
+
+                <input onClick="this.form.submit(); this.disabled=true; this.value='Creando…'; " style="    width: 90px;" value="Crear" class="btn btn-primary m-2" />
+              @*  <a asp-action="edit" asp-controller="procesos" asp-route-id="@ViewBag.SelectedValue" class="btn btn-secondary">Cancelar</a>*@
+                   <a href="@Url.Action("Edit","Procesos", new {id = ViewBag.SelectedValue, idTabs="formularios" })" class="btn btn-secondary m-2">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sistema de Declaraciones</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="cancelarModal()() " aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                 <p class="Mensaje"></p>
+            </div>
+            <div class="modal-footer">
+               
+                <button type="button" class="btn btn-primary" onclick="cancelarModal()()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*// TODO: Dónde está este script?*@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script src="~/js/Formulario.js"></script>
+    }
+}

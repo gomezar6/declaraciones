@@ -1,0 +1,131 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.DeclaracionDTO
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Seguimiento de declaraciones - Administrador</h1>
+<div>
+    <div class="col m-4 align-items-center">
+        <div class="col-4">
+            <label class="control-label">Proceso</label>
+        </div>
+        <div class="col-8">
+            <select class="form-control" id="selecProceso"  onchange="SearchFuncionariosByProceso()">
+                <option disabled selected value="0">Seleccione</option>
+                  @foreach (var item in Model.proceso)
+                { 
+                    
+                    <option value="@item.IdProceso">@item.NombreProceso - @item.EstadoProceso.NombreEstadoProceso</option>
+                    
+                }
+            </select>
+        </div>
+    </div>
+    <div class="col m-4 align-items-center">
+        <div class="col-3">
+            <label class="control-label">Persona Funcionaria</label>
+        </div>
+        <div class="col-7">
+            <select name="Idfuncionario" id="Idfuncionario" class="form-control form-select" aria-label="Default select " onchange="GetDeclaracionesbyProcess()">
+                <option value="0">Seleccione</option>
+                <option value="-1">Todos</option>
+            </select>
+        </div>
+    </div>
+</div>
+<table id="formularioTable" class="tablaBlue m-3 table table-striped table-hover  table-responsive">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Funcionario.Nombres)
+            </th>
+               <th>
+                @Html.DisplayNameFor(model => model.Funcionario.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Funcionario.Cargo)
+            </th>
+         
+            <th>
+                @Html.DisplayNameFor(model => model.Funcionario.UnidadOrganizacional)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Formulario.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoDeclaracion.NombreEstadoDeclaracion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeclaracion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Formulario.RecibirEnFisico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RecibidaEnFisico)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<div class="modal aceptarModalEstadoDeclaracion " tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sistema de Declaraciones</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="CancelarCambioEstadoDeclaracion() " aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Se encuentra a punto de cambiar el estado de una declaración. ¿Desea continuar?.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="AceptarCambioEstadoDeclaracion()">Si</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="CancelarCambioEstadoDeclaracion() ">No</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal ModalObservaciones " tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sistema de Declaraciones</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="CancelarCambioEstadoDeclaracion() " aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table TableHistory">
+                    <thead>
+                        <tr>
+                                  <th scope="col">Fecha</th>
+                            <th scope="col">Comentario</th>
+                 
+                         
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                     
+                    </tbody>
+                </table>
+                <hr />
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Agregar Nuevo Comentario</label>
+                    <textarea class="form-control" id="NewComment" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="CancelarComentario() ">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarComentario()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    <script src="~/js/DeclaracionListAdmin.js"></script>
+}
+}

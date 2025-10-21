@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Iniciar proceso";
+}
+
+<h1>Iniciar sincronización de funcionarios</h1>
+
+<h4>Sincronización</h4>
+<hr />
+<div class="row">
+    @Html.AntiForgeryToken()
+    <div class="col">
+        <button id="iniciarProceso">Iniciar proceso</button>
+        <div id="result"></div>
+    </div>
+</div>
+<script>
+    const interval = setInterval(()=>{
+        if(typeof $ !== typeof(undefined)){
+            clearInterval(interval);
+            $(document).ready(()=>{
+                onSuccess = (res)=>{
+                    console.log('success',res);
+                    if(res.succeed){
+                        $('#result').html(`<span style='color:green'><strong>Se ha enviado la solicitud con éxito, el proceso iniciará pronto.</strong><span><br/><br/>@Html.ActionLink("Ir al listado","Index")`);
+
+                    }else{
+                        if(res.status === 0){
+                            $('#result').html("<span style='color:red'><strong>No se ha podido enviar la solicitud, por favor espere unos minutos e intente de nuevo o contacte a soporte.</strong><span>");
+                        } else if(res.status === 1){
+                            $('#result').html("<span style='color:red'><strong>Existe un proceso en ejecución, por favor espere unos minutos que termine e intente de nuevo o contacte a soporte.</strong><span>");
+                        } else {
+                            $('#result').html("<span style='color:red'><strong>Se produjo un error inesperado, por favor contacto a soporte.</strong><span>");
+                        }
+                        $('#iniciarProceso').removeAttr('disabled');
+                    }
+                };
+                onError = (err)=>{
+                    console.log('err',err);
+                    $('#result').html("<span style='color:red'><strong>Se produjo un error, por favor contacte a soporte.</strong><span>");
+                    $('#iniciarProceso').removeAttr('disabled');
+                }
+                $('#iniciarProceso').click(()=>{
+                    $('#iniciarProceso').attr('disabled','disabled');
+                    const token = $("[name='__RequestVerificationToken']").val();
+
+                    $.ajax({
+                        url:'@Url.Action("StartProcess")',
+                        method:'POST',
+                        headers: { 'RequestVerificationToken': `${token}` },
+                        success: onSuccess,
+                        error:onError
+                    });
+                });
+            });
+        }
+    },100);
+</script>

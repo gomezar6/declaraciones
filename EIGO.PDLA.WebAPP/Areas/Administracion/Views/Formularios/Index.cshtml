@@ -1,0 +1,55 @@
+﻿@model IEnumerable<EIGO.PDLA.Common.Models.Formulario>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Formularios</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary m-2">Create New</a>
+</p>
+<table id="formularioTable" class="tablaBlue m-3 table table-striped table-hover  table-responsive">
+    <thead>
+        <tr>
+            <th>Acciones</th>
+             <th>  @Html.DisplayNameFor(model => model.Titulo)</th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdTipoDeclaracionNavigation.NombreDeclaracion)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Texto1)
+            </th>
+      
+     
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdFormulario">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdFormulario">Ver</a> |
+               
+               @if(item.IdProcesoNavigation.IdEstadoProceso == 1 ){
+                <a asp-action="Delete" asp-route-id="@item.IdFormulario">Eliminar</a>
+                }
+               
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdTipoDeclaracionNavigation.NombreDeclaracion)
+            </td>
+       
+             <td>
+                @Html.DisplayFor(modelItem => item.Texto1)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+

@@ -1,0 +1,66 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.ProcesoDto
+
+@{
+    ViewData["Title"] = "Crear Proceso";
+}
+
+<h1>Crear</h1>
+
+<h4>Proceso</h4>
+<hr />
+<div class="row">
+    <div class="col">
+        <form asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="NombreProceso" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="NombreProceso" class="form-control" />
+                    <span asp-validation-for="NombreProceso" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="FechaInicio" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="FechaInicio" class="form-control" />
+                    <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="FechaFin" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="FechaFin" class="form-control" />
+                    <span asp-validation-for="FechaFin" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="Corporativo" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input type="checkbox" asp-for="Corporativo" class="form-check-input ms-3" />
+                    <span asp-validation-for="Corporativo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="Observaciones" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <textarea asp-for="Observaciones" class="form-control"></textarea>
+                    <span asp-validation-for="Observaciones" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="text-center m-3">
+                <input onClick="this.form.submit(); this.disabled=true; this.value='Creando…'; " style="    width: 90px;" value="Crear" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-primary m-2">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+﻿
+@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.DisclaimerDTO
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editar Disclaimer</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdDisclaimer" />
+            <div class="form-group" >
+                <label asp-for="IdProceso" class="control-label"></label>
+                <select asp-for="IdProceso" class="form-control" asp-items="ViewBag.IdProceso" disabled="disabled"></select>
+                 <input asp-for="IdProceso" type="hidden" />
+                <span asp-validation-for="IdProceso" class="text-danger"></span>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="Titulo" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Titulo" class="form-control"  />
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row m-2 align-items-center">
+                <div class="col-4">
+                    <label asp-for="Texto" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <textarea asp-for="Texto" class="form-control"></textarea>
+                    <span asp-validation-for="Texto" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="text-center m-3">
+                <input onClick="this.form.submit(); this.disabled=true; this.value='Guardando…'; " style="    width: 100px;" value="Guardar"  class="btn btn-primary m-2" />
+                @if (ViewBag.Editable)
+                {
+                    <a href="@Url.Action("Edit","Procesos", new {id = Model.IdProceso, idTabs="disclaimers" })" class="btn btn-secondary m-2">Cancelar</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Details","Procesos", new {id = Model.IdProceso, idTabs="disclaimers" })" class="btn btn-secondary m-2">Cancelar</a>
+                }
+            </div>
+        </form>
+    </div>
+</div>

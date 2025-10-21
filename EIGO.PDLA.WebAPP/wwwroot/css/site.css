@@ -1,0 +1,37 @@
+@font-face {
+    font-family: 'Dosis-VariableFont_wght';
+    src: url(font/Dosis-VariableFont_wght.ttf) format("truetype")
+}
+
+@font-face {
+    font-family: 'OpenSans-Regular';
+    src: url(font/OpenSans-Regular.ttf) format("truetype")
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+/* CUSTOM */
+.bg-blue {
+    background-color: #003c65 !important;
+    width: 100px
+}
+
+.border-grey {
+    border-bottom: 1px solid grey
+}

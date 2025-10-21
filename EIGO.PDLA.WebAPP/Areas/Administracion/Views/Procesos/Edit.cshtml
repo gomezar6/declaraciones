@@ -1,0 +1,591 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.ProcesoDto
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+
+<h1>Editar</h1>
+
+<h4>Proceso</h4>
+<hr />
+<!-- Modal -->
+<div class="modal fade" id="confirmacionModal" tabindex="-1" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="Configured">
+                <input type="hidden" asp-for="IdProceso" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmacionModalLabel">Confirmación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    IMPORTANTE: Antes de hacer clic en confirmar, verifique que haya guardado todos los cambios. Este proceso no guarda los cambios realizados.
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Si</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs" id="procesoTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link @ViewBag.proceso"
+                        id="proceso-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#proceso"
+                        type="button"
+                        role="tab"
+                        aria-controls="proceso"
+                        aria-selected="true">
+                    Proceso
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link @ViewBag.alertas"
+                        id="alertas-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#alertas"
+                        type="button"
+                        role="tab"
+                        aria-controls="alertas"
+                        aria-selected="false">
+                    Alertas
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link @ViewBag.disclaimers"
+                        id="disclaimers-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#disclaimers"
+                        type="button"
+                        role="tab"
+                        aria-controls="disclaimers"
+                        aria-selected="false">
+                    Disclaimers
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link @ViewBag.formularios"
+                        id="formularios-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#formularios"
+                        type="button"
+                        role="tab"
+                        aria-controls="formularios"
+                        aria-selected="false">
+                    Formularios
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link @ViewBag.funcionarios"
+                        id="funcionarios-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#funcionarios"
+                        type="button"
+                        role="tab"
+                        aria-controls="funcionarios"
+                        aria-selected="false">
+                    Funcionarios
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link @ViewBag.Cumplimiento"
+                        id="Cumplimiento-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#Cumplimiento"
+                        type="button"
+                        role="tab"
+                        aria-controls="Cumplimiento"
+                        aria-selected="false"
+                @(@Model.EstadoProceso?.NombreEstadoProceso == "Por configurar" || @Model.EstadoProceso?.NombreEstadoProceso == "Configurado" ? "disabled=\"disabled\"" : "")>
+
+                    Reporte de cumplimiento
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link @ViewBag.auditoria"
+                        id="auditoria-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#auditoria"
+                        type="button"
+                        role="tab"
+                        aria-controls="auditoria"
+                        aria-selected="false">
+                    Auditoría
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content" id="procesoTabContent">
+            <div class="tab-pane fade @ViewBag.proceso" id="proceso" role="tabpanel" aria-labelledby="proceso-tab">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="IdEstadoProceso" />
+                    <input type="hidden" asp-for="IdProceso" />
+                    <div class="form-group">
+                        <label asp-for="IdEstadoProceso" class="control-label"></label>
+                        <div class="form-control disabled">@Html.DisplayFor(p =>p.EstadoProceso.NombreEstadoProceso)</div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NombreProceso" class="control-label"></label>
+                        <input asp-for="NombreProceso" class="form-control" />
+                        <span asp-validation-for="NombreProceso" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaInicio" class="control-label"></label>
+                        <input asp-for="FechaInicio" class="form-control" />
+                        <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaFin" class="control-label"></label>
+                        @if (Model.FechaFin.Value.Year.ToString() == "9999")
+                        {
+                            <input asp-for="FechaFin" class="form-control" value="" />
+                        }
+                        else
+                        {
+                            <input asp-for="FechaFin" class="form-control" />
+                        }
+
+
+                        <span asp-validation-for="FechaFin" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Corporativo" class="control-label"></label>
+                        <input type="checkbox" asp-for="Corporativo" class="form-check-input ms-3" />
+                        <span asp-validation-for="Corporativo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Observaciones" class="control-label"></label>
+                        <textarea asp-for="Observaciones" class="form-control"></textarea>
+                        <span asp-validation-for="Observaciones" class="text-danger"></span>
+                    </div>
+                    <div class="text-center m-3">
+                        <input onClick="this.form.submit(); this.disabled=true; this.value='Guardando…'; " style="    width: 100px;" value="Guardar" class="btn btn-primary" />
+                        <a asp-action="Index" asp-area="Administracion" asp-controller="Procesos" class="btn btn-secondary">Cancelar</a>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmacionModal" @(!ViewBag.IsValid ? "disabled=\"disabled\"" : "")>
+                            Configurado
+                        </button>
+                    </div>
+                </form>
+                @if (ViewBag.Errors?.Count > 0)
+                {
+                    <div>
+                        <h2>Pendientes del proceso</h2>
+                        <ul>
+                            @foreach (var item in ViewBag.Errors)
+                            {
+                                <li>@Html.Raw(item)</li>
+                            }
+                        </ul>
+                        <button class="btn btn-primary" id="reload">Refrescar</button>
+                    </div>
+                }
+            </div>
+            <div class="tab-pane fade  @ViewBag.alertas" id="alertas" role="tabpanel" aria-labelledby="alertas-tab">
+                <a asp-action="Create" asp-area="Administracion" asp-controller="Alertas" asp-route-id="@Model.IdProceso" asp-route-idProceso="@Model.IdProceso" asp-route-origen="Edit" class="btn btn-primary m-2">
+                    <i class="fas fa-plus"></i> Crear Alerta
+                </a>
+                <table class="tablaBlue m-3 table table-striped table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                @Html.DisplayNameFor(model=> model.Alertas.FirstOrDefault().Estatus)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().Fecha)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().Diligenciado)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().Asunto)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().Titulo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().SubTitulo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().Cuerpo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().AvisoConfidencialidad)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Alertas)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Edit" asp-area="Administracion" asp-controller="Alertas" asp-route-idproceso="@Model.IdProceso" title="Editar" asp-route-id="@item.IdAlerta" asp-route-idProceso="@item.IdProceso" asp-route-origen="Edit"><i class="fa fa-edit"></i></a> |
+                                    <a asp-action="Details" asp-area="Administracion" asp-controller="Alertas" title="Ver detalles" asp-route-id="@item.IdAlerta" asp-route-idProceso="@item.IdProceso" asp-route-origen="Edit"><i class="fa fa-search"></i></a> |
+                                    <a asp-action="Delete" asp-area="Administracion" asp-controller="Alertas" asp-route-idproceso="@Model.IdProceso" title="Eliminar" asp-route-id="@item.IdAlerta" asp-route-idProceso="@item.IdProceso" asp-route-origen="Edit"><i class="fas fa-trash iconRed"></i></a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Estatus)
+                                </td>
+                                <td>
+                                    @if (!item.Diligenciado)
+                                    {
+                                        @Html.DisplayFor(modelItem => item.Fecha)
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Diligenciado)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Asunto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Titulo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubTitulo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cuerpo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AvisoConfidencialidad)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade  @ViewBag.disclaimers" id="disclaimers" role="tabpanel" aria-labelledby="disclaimers-tab">
+                <p>
+                    <a asp-action="Create" asp-area="Administracion" asp-controller="Disclaimers" asp-route-id="@Model.IdProceso" asp-route-idProceso="@Model.IdProceso" asp-route-origen="Edit" class="btn btn-primary m-2"><i class="fas fa-plus"></i> Crear Disclaimer</a>
+                </p>
+                <table id="disclaimerTable" class="tablaBlue m-3 table table-striped table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Disclaimers.FirstOrDefault().Titulo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Disclaimers.FirstOrDefault().Texto)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Disclaimers)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Edit" asp-area="Administracion" asp-controller="Disclaimers" asp-route-idproceso="@Model.IdProceso" title="Editar" asp-route-id="@item.IdDisclaimer" asp-route-idProceso="@item.IdProceso" asp-route-origen="Edit"><i class="fa fa-edit"></i></a> |
+                                    <a asp-action="Details" asp-area="Administracion" asp-controller="Disclaimers" title="Ver detalles" asp-route-idproceso="@Model.IdProceso" asp-route-id="@item.IdDisclaimer" asp-route-idProceso="@item.IdProceso" asp-route-origen="Edit"><i class="fa fa-search"></i></a> |
+                                    <a asp-action="Delete" asp-area="Administracion" asp-controller="Disclaimers" title="Eliminar" asp-route-idproceso="@Model.IdProceso" class="@(@Model.IdEstadoProceso==1?"":"disabled")" asp-route-id="@item.IdDisclaimer" asp-route-idProceso="@item.IdProceso" asp-route-origen="Edit"><i class="fas fa-trash iconRed"></i></a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Titulo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Texto)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade @ViewBag.formularios" id="formularios" role="tabpanel" aria-labelledby="formularios-tab">
+                <p>
+                    <a asp-action="Create" asp-area="Administracion" asp-controller="Formularios" asp-route-id="@Model.IdProceso" asp-route-idProceso="@Model.IdProceso" asp-route-origen="Edit" class="btn btn-primary m-2"><i class="fas fa-plus"></i> Crear Formularios</a>
+                </p>
+                <table id="formularioTable" class="tablaBlue m-3 table table-striped table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Formularios.FirstOrDefault().Titulo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Formularios.FirstOrDefault().VersionFormulario)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model =>   model.Formularios.FirstOrDefault().TipoDeclaracion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model =>   model.Formularios.FirstOrDefault().RecibirEnFisico)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Formularios)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Edit" asp-area="Administracion" asp-controller="Formularios" asp-route-idproceso="@Model.IdProceso" title="Editar" asp-route-id="@item.IdFormulario" asp-route-idProceso="@item.IdProceso" asp-route-origen="Edit"><i class="fa fa-edit"></i></a> |
+                                    <a asp-action="Details" asp-area="Administracion" asp-controller="Formularios" asp-route-idproceso="@Model.IdProceso" title="Ver detalles" asp-route-id="@item.IdFormulario" asp-route-idProceso="@item.IdProceso" asp-route-origen="Edit"><i class="fa fa-search"></i></a> |
+                                    <a asp-action="Delete" asp-area="Administracion" asp-controller="Formularios" asp-route-idproceso="@Model.IdProceso" title="Eliminar" asp-route-id="@item.IdFormulario" asp-route-idProceso="@item.IdProceso" asp-route-origen="Edit"><i class="fas fa-trash iconRed"></i></a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Titulo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VersionFormulario)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoDeclaracion.NombreDeclaracion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RecibirEnFisico)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade  @ViewBag.Funcionarios" id="funcionarios" role="tabpanel" aria-labelledby="funcionarios-tab">
+                <div id="alert" class="alert hide" role="alert"></div>
+                <p>
+                    <button id="selectAll" class="btn btn-primary">Seleccionar todos los filtrados</button>
+                </p>
+                <form id="funcionariosForm">
+                    <table id="funcionariosTable" class="tablaBlue m-3 table table-striped table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Funcionarios.FirstOrDefault().Apellidos)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Funcionarios.FirstOrDefault().Nombres)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Funcionarios.FirstOrDefault().Cargo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Funcionarios.FirstOrDefault().LugarTrabajo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Funcionarios.FirstOrDefault().Siglas)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Funcionarios.FirstOrDefault().UnidadOrganizacional)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 0;
+                            }
+                            @if (Model.Funcionarios != null)
+
+                                foreach (var item in Model.Funcionarios)
+                                {
+                                    <tr>
+                                        <td data-order=@(@item.IsSelected || Model.Corporativo ? "\"1\"" : "0")>
+
+                                            <input type="checkbox" onclick="reordenar()" name="funcionarios" value="@item.IdFuncionario" @(@item.IsSelected || Model.Corporativo ? "checked=\"checked\"" : "") @(@Model.Corporativo ? "disabled=\"disabled\"" : "") />
+                                            @*  <div class="seleccionado hiddenElement">@(@item.IsSelected?"seleccionado":"")</div>*@
+
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Apellidos)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Nombres)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Cargo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LugarTrabajo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Siglas)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UnidadOrganizacional)
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                        </tbody>
+                    </table>
+                </form>
+                <p>
+                    <button id="saveFuncionarios">Guardar funcionarios</button>
+                </p>
+            </div>
+            <div class="tab-pane fade" id="Cumplimiento" role="tabpanel" aria-labelledby="Cumplimiento-tab">
+                <iframe title="reporteFinal-BD-API - Archivo Plano" src="@ViewBag.rutaCumplimiento" frameborder="0" allowFullScreen="true"></iframe>
+            </div>
+            <div class="tab-pane fade" id="auditoria" role="tabpanel" aria-labelledby="auditoria-tab">
+                <iframe title="reporteFinal-BD-API - Archivo Plano" src="@ViewBag.rutaAuditoria" frameborder="0" allowFullScreen="true"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script src="~/js/Proceso.js"></script>
+
+    }
+}
+<script>
+    const interval = setInterval(() => {
+        if (typeof $ !== typeof (undefined)) {
+
+
+            clearInterval(interval);
+            $(document).ready(() => {
+                $("#loader").removeClass("loading")
+                $("#loader").addClass("loading")
+
+                console.log("aca")
+                //  $('#funcionariosTable').DataTable().order([[0, 'desc']])
+
+
+                $('#alert').hide();
+                $('#reload').click(() => location.reload());
+                onSuccess = (res) => {
+                    console.log('res', res)
+                    if (res.succeed) {
+                        $('#alert').html('Guardado de forma exitosa');
+                        $('#alert').addClass('alert-success');
+                        $('#alert').show();
+                        setTimeout(() => {
+                            $('#alert').hide();
+                            $('#alert').removeClass('alert-success');
+                        }, 6000);
+                    } else {
+                        $('#alert').html('No se guardó la información. Por favor intente de nuevo o contacte a soporte.');
+                        $('#alert').addClass('alert-error');
+                        $('#alert').show();
+                        setTimeout(() => {
+                            $('#alert').hide();
+                            $('#alert').removeClass('alert-error');
+                        }, 6000);
+                    }
+
+                    $('#saveFuncionarios').removeAttr('disabled');
+                };
+
+                onError = (err) => {
+                    console.log('err', err);
+                    $('#alert').html('No se guardó la información. Por favor intente de nuevo o contacte a soporte.');
+                    $('#alert').addClass('alert-error');
+                    $('#alert').show();
+                    setTimeout(() => {
+                        $('#alert').hide();
+                        $('#alert').removeClass('alert-danger');
+                    }, 6000);
+                    $('#saveFuncionarios').removeAttr('disabled');
+                };
+
+                $('#saveFuncionarios').click(() => {
+                    $('#saveFuncionarios').attr('disabled', 'disabled');
+                    const idProceso = $('#IdProceso').val();
+                    const rows = $('#funcionariosTable').DataTable().rows();
+                    const funcionarios = Array.from(rows.nodes().map(n => $($(n).children()[0]).children(':checked')[0]).filter(c => !!c).map((f => f.value)));
+                    console.log('json', JSON.stringify(funcionarios));
+                    const token = $("[name='__RequestVerificationToken']").val();
+                    console.log($('#funcionariosForm')[0])
+                    const formData = new FormData($('#funcionariosForm')[0]);
+                    $.ajax({
+                        url: '@Url.Action("EditFuncionarios")',
+                        method: 'POST',
+                        headers: { 'RequestVerificationToken': `${token}`, 'Accept': 'application/json' },
+                        contentType: 'application/json',
+                        data: JSON.stringify({ idProceso: idProceso, funcionarios: funcionarios }),
+                        dataType: 'json',
+                        success: onSuccess,
+                        error: onError
+                    });
+                });
+
+                $('#selectAll').click(() => {
+                    const rows = $('#funcionariosTable').DataTable().rows({ search: 'applied' });
+                    const nodes = rows.nodes();
+                    nodes.each(n => $($($(n).children()[0]).children(':checkbox')[0]).prop('checked', 'checked'));
+                });
+
+                $("#loader").removeClass("loading")
+                console.log("Hola Mundo");
+
+                $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+                    var target = $(e.target).attr("data-bs-target") // activated tab
+
+
+                    const nextURL = window.location.pathname + "?idTabs=" + (target).replace("#", "");
+                    window.history.pushState(null, null, nextURL);
+                    console.log(target);
+
+                });
+            });
+        }
+    });
+
+    function orden(elem, idInput) {
+        console.log(elem)
+
+
+
+        //if($(elem).prop("checked")==true){
+
+
+        //var temp=$('#funcionariosTable').DataTable().row(idInput).data();
+        //console.log(temp);
+        //temp[0] = temp[0].replace('<div class="seleccionado hiddenElement"></div>','').replace('type="checkbox"','type="checkbox" checked="checked"')+' <div class="seleccionado hiddenElement">seleccionado</div>';
+
+        //console.log(temp);
+        //$('#funcionariosTable').DataTable().row(idInput).data( temp )
+
+
+
+        //}else{
+
+
+        //var temp=$('#funcionariosTable').row(idInput).data()
+        //console.log(temp);
+
+
+
+        //if(temp[0].indexOf("checked=\"&quot;checked&quot;\"")>0){
+        //   temp[0] = temp[0].replace("checked=\"&quot;checked&quot;\"",'').replace(' <div class="seleccionado hiddenElement">seleccionado</div>',"");
+        //}else if(temp[0].indexOf('checked="checked"')>0) {
+        //   temp[0] = temp[0].replace('checked="checked"','').replace(' <div class="seleccionado hiddenElement">seleccionado</div>',"");
+
+        //}
+        //else if(temp[0].indexOf('checked=""checked""')>0) {
+        //   temp[0] = temp[0].replace('checked="checked"','').replace(' <div class="seleccionado hiddenElement">seleccionado</div>',"");
+
+        //}
+
+
+        //console.log(temp);
+        //$('#funcionariosTable').row(idInput).data(temp)
+
+        //}
+
+        //$('#funcionariosTable').DataTable().rows().invalidate().draw();
+
+        $('#funcionariosTable').dataTable().fnDestroy();
+
+
+
+    }
+
+
+
+
+</script>

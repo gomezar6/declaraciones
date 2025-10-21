@@ -1,0 +1,282 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.ProcesoDto
+
+@{
+    ViewData["Title"] = "Crear";
+}
+
+<h1>Crear a partir de proceso</h1>
+
+<h4>Proceso</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs" id="procesoTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active"
+                        id="proceso-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#proceso"
+                        type="button"
+                        role="tab"
+                        aria-controls="proceso"
+                        aria-selected="true">
+                    Proceso
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link"
+                        id="alertas-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#alertas"
+                        type="button"
+                        role="tab"
+                        aria-controls="alertas"
+                        aria-selected="false">
+                    Alertas
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link"
+                        id="disclaimers-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#disclaimers"
+                        type="button"
+                        role="tab"
+                        aria-controls="disclaimers"
+                        aria-selected="false">
+                    Disclaimers
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link"
+                        id="disclaimers-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#formularios"
+                        type="button"
+                        role="tab"
+                        aria-controls="formularios"
+                        aria-selected="false">
+                    Formularios
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="procesoTabContent">
+            <div class="tab-pane fade show active" id="proceso" role="tabpanel" aria-labelledby="proceso-tab">
+                <form asp-action="CreateTemplate">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input type="hidden" asp-for="IdProceso" />
+                    <div class="form-group">
+                        <label asp-for="NombreProceso" class="control-label"></label>
+                        <input asp-for="NombreProceso" class="form-control" />
+                        <span asp-validation-for="NombreProceso" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaInicio" class="control-label"></label>
+                        <input asp-for="FechaInicio" class="form-control" />
+                        <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaFin" class="control-label"></label>
+                    
+
+                        @if (Model.FechaFin.Value.Year.ToString() == "9999")
+                        {
+                            <input asp-for="FechaFin" class="form-control" value="" />
+                        }
+                        else
+                        {
+                            <input asp-for="FechaFin" class="form-control" />
+                        }
+
+                        <span asp-validation-for="FechaFin" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Observaciones" class="control-label"></label>
+                        <textarea asp-for="Observaciones" class="form-control"></textarea>
+                        <span asp-validation-for="Observaciones" class="text-danger"></span>
+                    </div>
+                    <div class="text-center m-3">
+                        <input onClick="this.form.submit(); this.disabled=true; this.value='Creando…'; " style="    width: 90px;" value="Crear" class="btn btn-primary" />
+                        <a asp-action="Index" asp-area="Administracion" asp-controller="Procesos" class="btn btn-secondary" >Cancelar</a>
+                    </div>
+                </form>
+                  @if (ViewBag.Errors?.Count > 0)
+                {
+                    <div>
+                        <h2>Pendientes del proceso</h2>
+                        <ul>
+                            @foreach (var item in ViewBag.Errors)
+                            {
+                                <li>@Html.Raw(item)</li>
+                            }
+                        </ul>
+                        <button class="btn btn-primary" id="reload">Refrescar</button>
+                    </div>
+                }
+            </div>
+            <div class="tab-pane fade" id="alertas" role="tabpanel" aria-labelledby="alertas-tab">
+                <a asp-action="Create" asp-area="Administracion" asp-controller="Alertas" asp-route-id="@Model.IdProceso" class="btn btn-primary m-2 disabled">Crear alerta</a>
+                <table class="tablaBlue m-3 table table-striped table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                @Html.DisplayNameFor(model=> model.Alertas.FirstOrDefault().Estatus)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().Fecha)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().Asunto)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().Titulo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().SubTitulo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().Cuerpo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alertas.FirstOrDefault().AvisoConfidencialidad)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Alertas)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Edit" asp-area="Administracion" asp-controller="Alertas" asp-route-idproceso="@Model.IdProceso" asp-route-id="@item.IdAlerta" class="disabled"><i class="fa fa-edit"></i></a> |
+                                    <a asp-action="Details" asp-area="Administracion" asp-controller="Alertas" asp-route-id="@item.IdAlerta" class="disabled"><i class="fa fa-search"></i></a> |
+                                    <a asp-action="Delete" asp-area="Administracion" asp-controller="Alertas" asp-route-idproceso="@Model.IdProceso" asp-route-id="@item.IdAlerta" class="disabled"><i class="fas fa-trash iconRed"></i></a>
+                                </td>
+                                <td>
+                                    <div class="table-cell-restricted">
+                                        @Html.DisplayFor(modelItem => item.Estatus)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table-cell-restricted">
+                                        @Html.DisplayFor(modelItem => item.Fecha)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table-cell-restricted">
+                                        @Html.DisplayFor(modelItem => item.Asunto)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table-cell-restricted">
+                                        @Html.DisplayFor(modelItem => item.Titulo)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table-cell-restricted">
+                                        @Html.DisplayFor(modelItem => item.SubTitulo)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table-cell-restricted">
+                                        @Html.DisplayFor(modelItem => item.Cuerpo)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table-cell-restricted">
+                                        @Html.DisplayFor(modelItem => item.AvisoConfidencialidad)
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="tab-pane fade" id="disclaimers" role="tabpanel" aria-labelledby="disclaimers-tab">
+                <p>
+                    <a href="@Url.Action("Create","Disclaimers", new {proceso = Model.IdProceso})" class="btn btn-primary m-2 disabled">Crear disclaimer</a>
+                </p>
+                <table id="disclaimerTable" class="tablaBlue m-3 table table-striped table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Disclaimers.FirstOrDefault().Titulo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Disclaimers.FirstOrDefault().Texto)
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Disclaimers)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Edit","Disclaimers", new {id = item.IdDisclaimer,proceso = item.IdProceso})" class="disabled" )"><i class="fa fa-edit"></i></a> |
+                                    <a href="@Url.Action("Details","Disclaimers", new {id = item.IdDisclaimer,proceso = item.IdProceso})" class="disabled"><i class="fa fa-search"></i></a> |
+                                    <a href="@Url.Action("Delete","Disclaimers", new {id = item.IdDisclaimer,proceso = item.IdProceso})" class="disabled"><i class="fas fa-trash iconRed"></i></a>
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Titulo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Texto)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane fade" id="formularios" role="tabpanel" aria-labelledby="formularios-tab">
+                <p>
+                    <a asp-action="Create" asp-area="Administracion" asp-controller="Formularios" asp-route-id="@Model.IdProceso" class="btn btn-primary disabled m-2">Crear Formularios</a>
+                </p>
+                <table id="formularioTable" class="tablaBlue m-3 table table-striped table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Formularios.FirstOrDefault().TipoDeclaracion.NombreDeclaracion)
+                            </th>
+                             <th>
+                                @Html.DisplayNameFor(model =>   model.Formularios.FirstOrDefault().VersionFormulario)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model =>   model.Formularios.FirstOrDefault().RecibirEnFisico)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Formularios)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Edit" asp-area="Administracion" asp-controller="Formularios" asp-route-idproceso="@Model.IdProceso" asp-route-id="@item.IdFormulario" class="disabled"><i class="fa fa-edit"></i></a> |
+                                    <a asp-action="Details" asp-area="Administracion" asp-controller="Formularios" asp-route-idproceso="@Model.IdProceso" asp-route-id="@item.IdFormulario" class="disabled"><i class="fa fa-search"></i></a> |
+                                    <a asp-action="Delete" asp-area="Administracion" asp-controller="Formularios" asp-route-idproceso="@Model.IdProceso" asp-route-id="@item.IdFormulario" class="disabled"><i class="fas fa-trash iconRed"></i></a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoDeclaracion.NombreDeclaracion)
+                                </td>
+                                  <td>
+                                    @Html.DisplayFor(modelItem => item.VersionFormulario)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RecibirEnFisico)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

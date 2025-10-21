@@ -1,0 +1,89 @@
+trigger:
+- dev
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  buildConfiguration: 'Release'
+  workingdir: './'
+
+stages:
+- stage: 'Build'
+  jobs:
+  - job: 'Build'
+    steps:
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core sdk'
+      inputs:
+        packageType: 'sdk'
+        version: '8.0.x'
+
+    - script: npm i sass --global
+      displayName: 'Install SASS'
+
+    - script: dotnet build --configuration $(buildConfiguration)
+      displayName: 'dotnet build **/*.sln $(buildConfiguration)'
+      workingDirectory: $(workingdir)
+
+    - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
+      displayName: 'Write build info'
+      workingDirectory: $(workingdir)
+  
+    - script: sass --no-source-map ./EIGO.PDLA.WebAPP/wwwroot/css:./EIGO.PDLA.WebAPP/wwwroot/css
+      displayName: 'Compile SASS'
+
+    # - script: dotnet test ./EIGO.PDLA/EIGO.PDLA.Tests/EIGO.PDLA.Tests.csproj --no-build --configuration $(buildConfiguration) --logger "trx;logfilename=TEST-$(Build.BuildNumber)-results.xml" --collect "XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/
+    #   displayName: 'Run unit tests - $(buildConfiguration)'
+
+    # - script: dotnet run reportgenerator --project ./EIGO.PDLA/EIGO.PDLA.Tests/EIGO.PDLA.Tests.csproj  --reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines
+    #   displayName: 'Create code coverage report'
+
+    # - task: PublishTestResults@2
+    #   inputs:
+    #     testResultsFormat: 'VSTest'
+    #     testResultsFiles: '**/TEST-*.xml'
+    #     mergeTestResults: true
+    #     failTaskOnFailedTests: true
+    #     testRunTitle: 'Publish Test Results'
+
+    # - task: PublishCodeCoverageResults@1
+    #   displayName: 'Publish code coverage report'
+    #   inputs:
+    #     codeCoverageTool: 'cobertura'
+    #     summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+
+    - script: dotnet publish ./EIGO.PDLA.WebAPP/EIGO.PDLA.WebAPP.csproj --no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)
+      displayName: 'Publish the project - $(buildConfiguration)'
+
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/drop.zip'
+        replaceExistingArchive: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      condition: succeeded()
+
+# - stage: 'Deploy'
+#   dependsOn: Build
+#   jobs:
+#   - job: 'Deploy'
+#     steps:
+#     - task: DownloadPipelineArtifact@2
+#       inputs:
+#         buildType: 'current'
+#         artifactName: 'drop'
+#         targetPath: '$(Pipeline.Workspace)'
+
+    # - task: AzureRmWebAppDeployment@4
+    #   inputs:
+    #     ConnectionType: 'AzureRM'
+    #     azureSubscription: 'Azure APP'
+    #     appType: 'webAppLinux'
+    #     WebAppName: 'eigopdla'
+    #     packageForLinux: '$(Pipeline.Workspace)/**/*.zip'
+    #     RuntimeStack: 'DOTNETCORE|8.0'

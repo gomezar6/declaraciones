@@ -1,0 +1,117 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.DeclaracionDTO
+
+
+<div class="row m-2 align-items-center">
+    <p>  Yo, <strong>
+                @if (Model.Formulario.Preview == true)
+                {
+                    <span>_________________________________________________</span>
+                }
+                else
+                {
+                    @Model.Funcionario.Nombres }&nbsp;@{@Model.Funcionario.Apellidos
+                }
+
+            </strong>
+            en mi calidad de (describir el tipo de relación contractual con CAF):</p>
+   <textarea asp-for="Cargo" name="Cargo" class="form-control m-2" onchange="ValidarDisclaimer() "></textarea>
+</div>
+
+
+<div class="row m-2 ">
+    <p>@Model.Formulario.Texto1</p>
+</div>
+<hr />
+<div class="container m-2">
+
+
+    <div class="row m-2 align-items-center addNacionalidad">
+        <div class="col-2">
+            <label class="control-label">Nacionalidades</label>
+        </div>
+        <div class="col-4">
+            <select class="form-control" id="selecNacionalidad" asp-items="ViewBag.IdPaises">
+                <option disabled selected value="0">Seleccione</option>
+            </select>
+        </div>
+        <div class="col-2">
+                 @if (Model.Formulario.Preview == false)
+        {
+            <a class="btn btn-primary m-2" onclick="AddRowNacionalidad()"> <i class="fas fa-plus fa-lg"></i> Agregar</a>
+        }else{
+            <a class="btn btn-primary m-2" onclick="AddRowNacionalidadPreview()"> <i class="fas fa-plus fa-lg"></i> Agregar</a>
+        }
+        </div>
+    </div>
+    <table class="table TableNacionalidad  m-2" id="TableNacionalidad">
+        <thead>
+            <tr>
+
+                <th scope="col">Eliminar</th>
+                <th scope="col">Nacionalidad</th>
+                     <th  class="hiddenElement " scope="col">IdNacionalidad</th>
+
+            </tr>
+        </thead>
+        <tbody class="bodyNacionalidad">
+            @for (int j = 0; j < Model.Nacionalidades.Count(); j++)
+            {var item = "item"+j;
+                 
+            <tr class="@item">
+                <td ><a class="btn btn-link remove" onclick="eliminarNacionalidadFormulario(@j, @Model.Nacionalidades[j].PaisNavigation.IdPais)"> Eliminar</a></td>
+                <td>@Model.Nacionalidades[j].PaisNavigation.NombrePais</td>
+                <td class="hiddenElement " > <input type="hidden" class="NacionalidadEdit" name="NacionalidadEdit" value="@Model.Nacionalidades[j].Nacionalidad"> </td>
+
+            
+            </tr>
+
+            }
+
+        </tbody>
+    </table>
+</div>
+@if (Model.Formulario.Texto2 !=null)
+{
+    <div class="row m-2 ">
+        <p>@Model.Formulario.Texto2</p>
+    </div>
+}
+
+@if (Model.Formulario.Texto3!=null){
+<div class="container m-4">
+    <div class="text-start ">
+        <p>@Model.Formulario.Texto3</p>
+    </div>
+  
+</div>
+}
+
+@if (Model.Formulario.Texto4!=null){
+<div class="container m-4">
+    <div class="text-start ">
+        <p>@Model.Formulario.Texto4</p>
+    </div>
+   
+</div>
+}
+
+
+
+@for (int i = 0; i < Model.Formulario.ProcesoDisclaimerFormulario.Count(); i++)
+{
+    if (@Model.Formulario.ProcesoDisclaimerFormulario.ElementAtOrDefault(i).Disclaimer.Texto!="" && @Model.Formulario.ProcesoDisclaimerFormulario.ElementAtOrDefault(i).Disclaimer.Texto!=null)
+    { <div class="container m-4">
+        <div class="text-start ">
+            <input type="checkbox" name="CheckDeclaracion" onchange="ValidarDisclaimer() " />
+            <strong>
+                @Model.Formulario.ProcesoDisclaimerFormulario.ElementAtOrDefault(i).Disclaimer.Texto
+            </strong>
+        </div>
+    </div>
+        
+    }
+   
+}
+
+
+

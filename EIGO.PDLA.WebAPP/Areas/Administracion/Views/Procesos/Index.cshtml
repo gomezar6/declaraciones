@@ -1,0 +1,76 @@
+﻿@model IEnumerable<EIGO.PDLA.WebAPP.Areas.Administracion.DTO.ProcesoDto>
+
+@{
+    ViewData["Title"] = "Procesos";
+}
+
+<h1>Procesos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary m-2"><i class="fas fa-plus"></i> Crear</a>
+</p>
+<table class="table tablaBlue">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreProceso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaFin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observaciones)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoProceso.NombreEstadoProceso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Responsable)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdProceso" title="Editar" class="@(@item.IdEstadoProceso!=1?"disabled":"")"><i class="fa fa-edit"></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.IdProceso" title="Ver detalles"><i class="fa fa-search"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdProceso" title="Eliminar" class="@(@item.IdEstadoProceso!=1?"disabled":"")"><i class="fas fa-trash iconRed"></i></a>|
+                    <a asp-action="CreateTemplate" asp-route-id="@item.IdProceso" title="Generar plantilla"><i class="fa fa-list"></i></a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreProceso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaInicio)
+                </td>
+                <td>
+                    @if (item.FechaFin.Value.Year.ToString() == "9999")
+                    {
+                        <p>-</p>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.FechaFin)
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observaciones)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoProceso.NombreEstadoProceso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Responsable)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

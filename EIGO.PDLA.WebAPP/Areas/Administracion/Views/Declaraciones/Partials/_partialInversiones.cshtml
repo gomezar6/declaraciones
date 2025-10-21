@@ -1,0 +1,404 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.DeclaracionDTO
+ @if (Model.Formulario.Preview == true)
+{
+    <div class="container">
+
+        <div class="row m-2 align-items-center">
+            <div class="col-4">
+                <label asp-for="Funcionario.Nombres" class="control-label"></label>
+            </div>
+            <div class="col-8">
+                <input  type="text" class="form-control " name="NombreFuncionario" readonly="readonly" />
+            </div>
+        </div>
+        <div class="row m-2 align-items-center">
+            <div class="col-4">
+                <label asp-for="Funcionario.Apellidos" class="control-label"></label>
+            </div>
+            <div class="col-8">
+
+
+                <input type="text" class="form-control " name="ApellidoFuncionario" readonly="readonly" />
+            </div>
+        </div>
+        <div class="row m-2 align-items-center">
+            <div class="col-4">
+                <label asp-for="Funcionario.Cargo" class="control-label"></label>
+            </div>
+            <div class="col-8">
+                <input  type="text" class="form-control " name="Cargo" id="Cargo" readonly="readonly" />
+            </div>
+        </div>
+        <div class="row m-2 align-items-center">
+            <div class="col-4">
+                <label asp-for="Funcionario.UnidadOrganizacional" class="control-label"></label>
+            </div>
+            <div class="col-8">
+                <input  type="text" class="form-control " name="UnidadOrganizacional" readonly="readonly" />
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+
+        <div class="row m-2 align-items-center">
+            <div class="col-4">
+                <label asp-for="Funcionario.Nombres" class="control-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Funcionario.Nombres" type="text" class="form-control " name="NombreFuncionario" readonly="readonly" />
+            </div>
+        </div>
+        <div class="row m-2 align-items-center">
+            <div class="col-4">
+                <label asp-for="Funcionario.Apellidos" class="control-label"></label>
+            </div>
+            <div class="col-8">
+
+
+                <input asp-for="Funcionario.Apellidos" type="text" class="form-control " name="ApellidoFuncionario" readonly="readonly" />
+            </div>
+        </div>
+        <div class="row m-2 align-items-center">
+            <div class="col-4">
+                <label asp-for="Funcionario.Cargo" class="control-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Funcionario.Cargo" type="text" class="form-control " name="Cargo" id="Cargo" readonly="readonly" />
+            </div>
+        </div>
+        <div class="row m-2 align-items-center">
+            <div class="col-4">
+                <label asp-for="Funcionario.UnidadOrganizacional" class="control-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Funcionario.UnidadOrganizacional" type="text" class="form-control " name="UnidadOrganizacional" readonly="readonly" />
+            </div>
+        </div>
+    </div>
+}
+
+@*Participaciones Tabla Original*@
+<div class="container m-4">
+    <div class="text-start ">
+        <p>@Model.Formulario.Texto1</p>
+    </div>
+    @if (Model.CountDisclaimer > 0)
+    {
+        <div class="text-start ">
+            <input type="checkbox" name="CheckParticipacion" id="CheckParticipacion" onchange="ValidarParticipacion(this,'Participacion','DataTables_Table_0')" />
+            <strong>
+                @Model.Formulario.ProcesoDisclaimerFormulario.FirstOrDefault().Disclaimer.Texto
+            </strong>
+        </div>
+    }
+    <table class="tablaBlue m-3 table table-striped table-hover table-responsive TablaParticipacion TablaParticipacionEdit ">
+        <thead>
+            <tr>
+                <th scope="col">IdParticipacion</th>
+                <th scope="col">Acción</th>
+                <th scope="col">Nombre Completo de la Persona Funcionaria o Familiar</th>
+                <th scope="col">Vinculo Familiar</th>
+                <th scope="col">Nombre de la Entidad </th>
+                <th scope="col">País </th>
+                <th scope="col">% de Part. Accionaria </th>
+                <th scope="col">Cargo </th>
+            </tr>
+        </thead>
+        <tbody class="bodyParticipacion">
+            @for (int j = 0; j < Model.Participacion.Count(); j++)
+            {
+                <tr>
+                    <td><input type="Text" class="form-control  " name="IdParticipacion[]" value="@Model.Participacion[j].IdParticipacion" disabled="disabled" /></td>
+                    <td>
+                        <a class="btn btn-link remove" onclick="EliminarDeclaracion(@Model.Participacion[j].IdParticipacion,@Model.Participacion[j].IdDeclaracion,@Model.Participacion[j].IdPais,@Model.Participacion[j].IdParentesco)"> Eliminar</a>
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="NombreCompleto[@j]" id="NombreCompleto" value="@Model.Participacion[j].NombreFamiliar" disabled="disabled" />
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="Parentesco[@j]" id="ParentescoSelect" value="@Model.Participacion[j].IdParentescoNavigation.NombreParentesco" disabled="disabled" />
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="NombreEmpresa[' + iRowCnt + ']" value="@Model.Participacion[j].NombreEmpresa" disabled="disabled" />
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="Pais[@j]" id="Pais" value="@Model.Participacion[j].IdPaisNavigation.NombrePais" disabled="disabled" />
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="PorcentajeParticipacion[' + iRowCnt + ']" value="@Model.Participacion[j].PctAccionario" disabled="disabled" />
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="CargoParticipacion[' + iRowCnt + ']" value="@Model.Participacion[j].Cargo" disabled="disabled" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <span class="MsgTable m-3">Si no puede visualizar un familiar en el listado, puede incluirlo presionando la opción "Agregar Nuevo"</span>
+    <hr />
+    <div class="text-end m-12 btnAddItem">
+          @if (Model.Formulario.Preview == true)
+        {
+     <a class="btn btn-primary m-2" id="AgregarParticipacion" onclick="AddRowPreview('#DataTables_Table_0')"><i class="fas fa-plus fa-lg"></i> Agregar Fila </a>
+        }
+        else{
+            
+         <a class="btn btn-primary m-2" id="AgregarParticipacion" onclick="AddRow('#DataTables_Table_0')"><i class="fas fa-plus fa-lg"></i> Agregar Fila </a>
+        }
+     
+    </div>
+</div>
+@*Tabla 1 Entidades Participacion Con Mes y Año*@
+<div class="container m-4">
+    <div class="text-start ">
+        <p>@Model.Formulario.Texto2</p>
+    </div>
+    @if (Model.CountDisclaimer > 1)
+    {
+        <div class="text-start ">
+            <input type="checkbox" name="CheckEntidadesParticipacion" id="CheckEntidadesParticipacion" onchange="ValidarParticipacion(this,'EntidadesParticipacion','DataTables_Table_1')" />
+            <strong>
+                @Model.Formulario.ProcesoDisclaimerFormulario.ElementAtOrDefault(1).Disclaimer.Texto
+            </strong>
+        </div>
+    }
+    <table class="tablaBlue m-3 table table-striped table-hover table-responsive TablaEntidadesParticipacion TablaEntidadesParticipacionEdit">
+        <thead>
+            <tr>
+                <th scope="col">IdParticipacion</th>
+                <th scope="col" class="th__Accion__TableEntidadesParticipacion">Acción</th>
+                <th scope="col" class="th__NombreCompleto__TableEntidadesParticipacion">Nombre Completo de la Persona Funcionaria o Familiar</th>
+                <th scope="col" class="th__VinculoFamiliar__TableEntidadesParticipacion">Vinculo Familiar</th>
+                <th scope="col" class="th__NombreEntidad__TableEntidadesParticipacion">Nombre de la Entidad </th>
+                <th scope="col" class="th__Pais__TableEntidadesParticipacion">País </th>
+                <th scope="col" class="th__Participacion__TableEntidadesParticipacion">Participación</th>
+                <th scope="col" class="th__cargo__TableEntidadecargo">Cargo</th>
+
+                <th scope="col" class="th__cargo__TableEntidadecargo2">Cargo</th>
+
+                <th scope="col" class="th__MesyAnio__TableEntidadesParticipacion">Mes y Año de inicio (sólo para el funcionariado) </th>
+            </tr>
+        </thead>
+        <tbody class="bodyEntidadesParticipacion">
+            @*@foreach (var item in Model.Responsabilidad)*@
+            @for (int j = 0; j < Model.Responsabilidad.Count(); j++)
+            {
+                if (Model.Responsabilidad[j].ntipoCargo != 1)
+                {
+                    continue;
+                }
+                <tr>
+                    <td><input type="Text" class="form-control  " name="IdParticipacion[]" value="@Model.Responsabilidad[j].IdParticipacion" disabled="disabled" /></td>
+                    <td>
+                        <a class="btn btn-link remove" onclick="EliminarDeclaracion(@Model.Responsabilidad[j].IdParticipacion,@Model.Responsabilidad[j].IdDeclaracion,@Model.Responsabilidad[j].IdPais,@Model.Responsabilidad[j].IdParentesco)"> Eliminar</a>
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="NombreCompleto[@j]" id="NombreCompleto" value="@Model.Responsabilidad[j].NombreFamiliar" disabled="disabled" />
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="Parentesco[@j]" id="ParentescoSelect" value="@Model.Responsabilidad[j].IdParentescoNavigation.NombreParentesco" disabled="disabled" />
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="NombreEmpresa[' + iRowCnt + ']" value="@Model.Responsabilidad[j].NombreEmpresa" disabled="disabled" />
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="Pais[@j]" id="Pais" value="@Model.Responsabilidad[j].IdPaisNavigation.NombrePais" disabled="disabled" />
+                    </td>
+                                       
+                    <td>
+                        <input type="Text" class="form-control  " name="PorcentajeParticipacion[' + iRowCnt + ']" value="@Model.Responsabilidad[j].PctAccionario" disabled="disabled" />
+                    </td>
+                    <td >
+                        @if (Model.Responsabilidad[j].bOtro==true)
+                        {
+                            <input type="Text" class="form-control  " style="width:40%;display:inline-block" name="CargoParticipacion[' + iRowCnt + ']" value="Otro" disabled="disabled" />
+                            <input type="Text" class="form-control  " style="width:58%;display:inline-block" name="CargoParticipacion[' + iRowCnt + ']" value="@Model.Responsabilidad[j].Cargo" disabled="disabled" />
+                        }else{
+                        <input type="Text" class="form-control  " name="CargoParticipacion[' + iRowCnt + ']" value="@Model.Responsabilidad[j].Cargo" disabled="disabled" />
+                        }
+                        
+                    </td>
+                    <td>
+                        @if (Model.Responsabilidad[j].bOtro == true)
+                        {
+                            <input type="Text" class="form-control  " style="width:40%;display:inline-block" name="CargoParticipacion[' + iRowCnt + ']" value="Otro" disabled="disabled" />
+                            <input type="Text" class="form-control  " style="width:58%;display:inline-block" name="CargoParticipacion[' + iRowCnt + ']" value="@Model.Responsabilidad[j].Cargo" disabled="disabled" />
+                        }
+                        else
+                        {
+                            <input type="Text" class="form-control  " name="CargoParticipacion[' + iRowCnt + ']" value="@Model.Responsabilidad[j].Cargo" disabled="disabled" />
+                        }
+                    </td>
+                    @if (Model.Responsabilidad[j].dMesAnioInicio.HasValue) 
+                    {
+                        <td class="mes__anio__container">
+                            <input type="Text" class="form-control  " value="@Model.Responsabilidad[j].dMesAnioInicio.Value.Month" disabled="disabled" />
+                            <input type="Text" class="form-control  " value="@Model.Responsabilidad[j].dMesAnioInicio.Value.Year" disabled="disabled" />
+                        </td>
+                    } else
+                    {
+                        <td class="mes__anio__container">
+                            <input type="Text" class="form-control  " value="" disabled="disabled" />
+                            <input type="Text" class="form-control  " value="" disabled="disabled" />
+                        </td>
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <span class="MsgTable m-3">Si no puede visualizar un familiar en el listado, puede incluirlo presionando la opción "Agregar Nuevo"</span>
+    <hr />
+    <div class="text-end btnAddItem">
+         @if (Model.Formulario.Preview == true)
+        {
+            <a class="btn btn-primary m-2" id="AgregarEntidadesParticipacion" onclick="AddRowPreview('#DataTables_Table_1')"><i class="fas fa-plus fa-lg"></i> Agregar Fila </a>
+        }
+        else{
+            
+            <a class="btn btn-primary m-2" id="AgregarEntidadesParticipacion" onclick="AddRow('#DataTables_Table_1')"><i class="fas fa-plus fa-lg"></i> Agregar Fila </a>
+        }
+    </div>
+</div>
+@*Tabla 2 Responsabilidades Gerenciales con Cargo como texto Libre*@
+<div class="container m-4">
+    <div class="text-start ">
+        <p>@Model.Formulario.Texto3</p>
+    </div>
+    @if (Model.CountDisclaimer > 1)
+    {
+        <div class="text-start ">
+            <input type="checkbox" name="CheckResponsabilidad" id="CheckResponsabilidad" onchange="ValidarParticipacion(this,'Responsabilidad','DataTables_Table_2')" />
+            <strong>
+                @Model.Formulario.ProcesoDisclaimerFormulario.ElementAtOrDefault(2).Disclaimer.Texto
+            </strong>
+        </div>
+    }
+    <table class="tablaBlue m-3 table table-striped table-hover table-responsive TablaResponsabilidad TablaResponsabilidadEdit">
+        <thead>
+            <tr>
+                <th scope="col">IdParticipacion</th>
+                <th scope="col">Acción</th>
+                <th scope="col">Nombre Completo de la Persona Funcionaria o Familiar</th>
+                <th scope="col">Vinculo Familiar</th>
+                <th scope="col">Nombre de la Entidad </th>
+                <th scope="col">País </th>
+                <th scope="col">% de Part. Accionaria </th>
+                <th scope="col">Cargo </th>
+            </tr>
+        </thead>
+        <tbody class="bodyResponsabilidad">
+            @*@foreach (var item in Model.Responsabilidad)*@
+            @for (int j = 0; j < Model.Responsabilidad.Count(); j++)
+            {
+                if (Model.Responsabilidad[j].ntipoCargo == 1)
+                {
+                    continue;    
+                }
+                <tr>
+                    <td><input type="Text" class="form-control  " name="IdParticipacion[]" value="@Model.Responsabilidad[j].IdParticipacion" disabled="disabled" /></td>
+                    <td>
+                        <a class="btn btn-link remove" onclick="EliminarDeclaracion(@Model.Responsabilidad[j].IdParticipacion,@Model.Responsabilidad[j].IdDeclaracion,@Model.Responsabilidad[j].IdPais,@Model.Responsabilidad[j].IdParentesco)"> Eliminar</a>
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="NombreCompleto[@j]" id="NombreCompleto" value="@Model.Responsabilidad[j].NombreFamiliar" disabled="disabled" />
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="Parentesco[@j]" id="ParentescoSelect" value="@Model.Responsabilidad[j].IdParentescoNavigation.NombreParentesco" disabled="disabled" />
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="NombreEmpresa[' + iRowCnt + ']" value="@Model.Responsabilidad[j].NombreEmpresa" disabled="disabled" />
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="Pais[@j]" id="Pais" value="@Model.Responsabilidad[j].IdPaisNavigation.NombrePais" disabled="disabled" />
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="PorcentajeParticipacion[' + iRowCnt + ']" value="@Model.Responsabilidad[j].PctAccionario" disabled="disabled" />
+                    </td>
+                    <td>
+                        <input type="Text" class="form-control  " name="CargoParticipacion[' + iRowCnt + ']" value="@Model.Responsabilidad[j].Cargo" disabled="disabled" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <span class="MsgTable m-3">Si no puede visualizar un familiar en el listado, puede incluirlo presionando la opción "Agregar Nuevo"</span>
+    <hr />
+    <div class="text-end btnAddItem">
+        @if (Model.Formulario.Preview == true)
+        {
+            <a class="btn btn-primary m-2" id="AgregarResponsabilidad" onclick="AddRowPreview('#DataTables_Table_2')"><i class="fas fa-plus fa-lg"></i> Agregar Fila </a>
+        }
+        else
+        {
+
+            <a class="btn btn-primary m-2" id="AgregarResponsabilidad" onclick="AddRow('#DataTables_Table_2')"><i class="fas fa-plus fa-lg"></i> Agregar Fila </a>
+        }
+    </div>
+</div>
+
+@if (Model.Formulario.Texto4!=""){
+<div class="container m-4">
+    <div class="text-start ">
+        <p>@Model.Formulario.Texto4</p>
+    </div>
+    <hr />
+</div>
+}
+@if (Model.Formulario.Texto5 != "")
+{
+    <div class="container m-4">
+        <div class="text-start ">
+            <p>@Model.Formulario.Texto5</p>
+        </div>
+       
+    </div>
+      <div class="container m-4">
+
+        @{
+            var isCheckedSi = Model.bConflictoInteres==true ? "checked='checked'" : "";
+            var varestilo = Model.bConflictoInteres == true ? "" : "style='display:none'";
+            var varInputCOnflicto = Model.bConflictoInteres == true ? "true" :"false";
+            var isCheckedNo = !Model.bConflictoInteres==true ? "checked" : "";
+            <label for="respuestaSi">Sí</label>
+            <input type="radio" id="respuestaSi" name="respuesta" value="si" @isCheckedSi onchange="OcultarJustificacion(1)" onclick="OcultarJustificacion(1)">
+
+            <label for="respuestaNo">No</label>
+            <input type="radio" id="respuestaNo" name="respuesta" value="no" @isCheckedNo onchange="OcultarJustificacion(0)" onclick="OcultarJustificacion(0)">
+            }
+
+      
+    <br>
+    <br>
+        <div class="PorqueConflicto" @varestilo  >
+            <label for="sJustificacion">¿Por qué?</label>
+            <br>
+
+            <textarea id="sJustificacion" name="sJustificacion" rows="4" style="    width: 100%;">@Model.sJustificacion</textarea>
+            <input type="hidden" name="bConflictoInteres" id="bConflictoInteres" value="@varInputCOnflicto.ToString()" class="bConflictoInteres" />
+    </div>
+  
+    </div>
+
+}
+
+@if (Model.CountDisclaimer > 3)
+{
+    @for (int i = 3; i < Model.Formulario.ProcesoDisclaimerFormulario.Count(); i++)
+    {
+
+     
+      
+        <div class="container m-4">
+            <div class="text-start ">
+                <input type="checkbox" name="CheckDeclaracion" onchange="ValidarDisclaimer() " />
+                <strong>
+                    @Model.Formulario.ProcesoDisclaimerFormulario.ElementAtOrDefault(i).Disclaimer.Texto
+                </strong>
+            </div>
+        </div>
+    }
+}

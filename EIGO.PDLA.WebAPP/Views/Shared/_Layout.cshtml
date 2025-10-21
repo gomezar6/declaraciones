@@ -1,0 +1,131 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@using EIGO.PDLA.WebAPP.Helpers
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CAF</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,600,700|Dosis:400,600" type="text/css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/estilos.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/fontawesome/css/all.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/jquery.dataTables.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/VistaImpresion.css" asp-append-version="true" media="print" />
+    <link rel="stylesheet" href="~/css/Loader.css" asp-append-version="true" />
+</head>
+<body>
+    <div id="loader"></div>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+            <div class="container-fluid">
+                <a class="navbar-brand"  href="/">
+                    <svg width="80px" height="40px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 50" style="enable-background:new 0 0 100 50;" xml:space="preserve">
+                    <style type="text/css">
+                        .st0 {
+                            fill: #094A82;
+                        }
+
+                        .st1 {
+                            fill: #48A334;
+                        }
+</style>
+                    <g>
+                    <g>
+                    <path class="st0" d="M8.8,7.4c7.7-5.5,17.6-3.9,26.5-4.1c-1.5,4.1-3,8.2-4.6,12.4c-4.4,0.3-9.6-0.9-13.4,2
+                                    c-3,3.4-2.7,8.8-1.4,12.8c2.7,5.2,9.4,3.5,14.2,3.8c3.7-10.2,7.4-20.8,11.2-31c2.5,6.3,5,13.1,7.4,19.4c-2.9,8-5.9,16-8.9,24
+                                    c-8.1-0.4-16.4,0.9-24.3-1C8.6,44.1,3.2,38.4,2.1,31.6C0.4,23.2,1.5,12.9,8.8,7.4z" />
+                            </g>
+                    <g>
+                    <path class="st1" d="M41.3,3.3c4.8,0,9.7,0,14.5,0c2.5,6.8,5,13.6,7.5,20.4c0.1-6.8,0-13.6,0.1-20.4c11.7,0,23.5,0,35.2,0
+                                    c-1.5,4.1-4.5,12.4-4.5,12.4l-17.9,0l0,5.6h15c0,0,0,7.5,0,11.3c-5,0-10,0-15,0c0,4.7,0,9.4,0,14.1c-6.2,0-12.4,0-18.6,0
+                                    c-3-8-6-16-9-24c-2.4-6.4-4.7-12.7-7.2-19L41.3,3.3z" />
+                            </g>
+                        </g>
+                    </svg>
+                    <span class="app-name">Sistema de<br /> Declaraciones</span>
+                </a>
+                <div class="d-inline-flex ml-auto">
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container d-flex">
+        <div class="navbar-dark bg-caf-blue menu">
+            <button class="navbar-toggler m-2 shadow-none" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarContent"
+                    aria-controls="navbarContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <nav id="navbarContent" class="navbar navbar-expand navbar-toggleable collapse">
+                <div class="container-fluid">
+                    <div class="navbar-collapse collapse d-inline-flex">
+                        <ul class="navbar-nav flex-grow-1 flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="DeclaracionesFuncionario" asp-action="Index">Inicio</a>
+                            </li>
+
+                            @if (EIGO.PDLA.Common.Helpers.GraphHelper.CheckUsersGroupMembership(Context.User, Configuration["Groups:GroupAdmin"]))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="administracion" asp-controller="declaraciones" asp-action="Index">Administración</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <main role="main" class="pb-3 ps-3">
+            @if (ViewBag.Breadcrumbs != null)
+            {
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white justify-content-center justify-content-md-start justify-content-lg-start justify-content-xl-start">
+                        @foreach (var breadcrumb in ViewBag.Breadcrumbs as List<Breadcrumb>)
+                        {
+                            if (breadcrumb.IsActive)
+                            {
+                                <li class="breadcrumb-item active">
+                                    <a asp-action="@breadcrumb.Action" asp-controller="@breadcrumb.Controller" asp-route-id="@breadcrumb.Value">
+                                        <i class="fa @breadcrumb.Icon" aria-hidden="true"></i> 
+                                        @breadcrumb.Text
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="breadcrumb-item" aria-current="page">
+                                    <i class="fa @breadcrumb.Icon" aria-hidden="true"></i>
+                                    @breadcrumb.Text
+                                </li>
+                            }
+                        }
+                    </ol>
+                </nav>
+            }
+            <div class="row">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    
+        <script type="text/javascript" src="~/js/dataTables.rowReorder.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>

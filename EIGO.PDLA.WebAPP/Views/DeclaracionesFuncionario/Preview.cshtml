@@ -1,0 +1,111 @@
+﻿@model EIGO.PDLA.WebAPP.Areas.Administracion.DTO.DeclaracionDTO
+@{
+    ViewData["Title"] = "Edit";
+}
+<h1>Gestionar Declaración - Funcionariado</h1>
+<h4>@Model.Formulario.Titulo</h4>
+<h5>@Model.Formulario.Encabezado</h5>
+<hr />
+<style>
+    html {
+    overflow: hidden!important;
+}
+
+</style>
+<div class="row">
+    <div class="col">
+        <form asp-action="Edit" id="FormDeclaracion">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="IdFormulario" type="hidden" />
+            <input asp-for="IdDeclaracion" type="hidden" />
+            <input asp-for="IdEstadoDeclaracion" type="hidden" />
+            <input asp-for="Funcionario.IdFuncionario" id="IdFuncionario" type="hidden" />
+            <input asp-for="IdFuncionario" type="hidden" />
+            <input asp-for="RecibidaEnFisico" type="hidden" class="form-control form-check-input" />
+            <input asp-for="ConfirmacionResponsabilidad" type="hidden" class="form-control" />
+            <input asp-for="CountDisclaimer" class="form-control" type="hidden" />
+            <input asp-for="Formulario.IdTipoDeclaracion" class="form-control" type="hidden" />
+             <div class="container">
+                <h5 class="tituloDeclaracion text-start"><strong class="label-Estado-Declaracion"> <label asp-for="EstadoDeclaracion.NombreEstadoDeclaracion" class="control-label"></label>:</strong> @Model.EstadoDeclaracion.NombreEstadoDeclaracion</h5>
+
+                @if (@Model.Formulario.RecibirEnFisico == true)
+                {
+                    <h5 class="tituloDeclaracion text-start"><strong class="label-Estado-Declaracion"> <label asp-for="Formulario.RecibirEnFisico" class="control-label"></label>:</strong> Si  </h5>
+
+                }
+
+            </div>
+            <hr />
+            @if (Model.Formulario.TipoDeclaracion.IdTipo == 1)   @* inversiones*@
+            {
+                Html.RenderPartial("~/Areas/Administracion/Views/Declaraciones/Partials/_partialInversiones.cshtml", Model);
+            }
+            else if (Model.Formulario.TipoDeclaracion.IdTipo == 2)@* Nacionalidades*@
+            {
+                Html.RenderPartial("~/Areas/Administracion/Views/Declaraciones/Partials/_partialNacionalidades.cshtml", Model);
+            }
+            else if (Model.Formulario.TipoDeclaracion.IdTipo == 3)@* Seguridad*@
+            {
+                Html.RenderPartial("~/Areas/Administracion/Views/Declaraciones/Partials/_partialSeguridad.cshtml", Model);
+            }
+            else if (Model.Formulario.TipoDeclaracion.IdTipo == 4)@* Proteccion*@
+            {
+                Html.RenderPartial("~/Areas/Administracion/Views/Declaraciones/Partials/_partialProteccion.cshtml", Model);
+
+            }
+            else if (Model.Formulario.TipoDeclaracion.IdTipo == 5)@* Proteccion*@
+            {
+                Html.RenderPartial("~/Areas/Administracion/Views/Declaraciones/Partials/_partialEstandar.cshtml", Model);
+
+            }
+            <hr />
+            <div class="row">
+                <div class="col m-4 align-items-center">
+                    <div class="col-4">
+                        <label class="control-label">Pais</label>
+                    </div>
+                    <div class="col-8">
+                        <select name="IdPais" id="IdPais" class="form-control form-select" aria-label="Default select " OnChange="GetCiudadByPais()" asp-items="ViewBag.IdPais">
+                        </select>
+
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col m-4 align-items-center">
+                    <div class="col-4">
+                        <label asp-for="IdCiudad" class="control-label"></label>
+                    </div>
+                    <div class="col-8">
+
+                        <select asp-for="IdCiudad" name="IdCiudad" id="IdCiudad" class="form-control form-select" aria-label="Default select ">
+                        </select>
+                        <input asp-for="IdCiudad" type="hidden" />
+
+                        <span asp-validation-for="IdCiudad" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col m-4 align-items-center">
+                    <div class="col-4">
+                        <label asp-for="FechaDeclaracion" class="control-label"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="FechaDeclaracion" type="date" class="form-control" />
+                        <span asp-validation-for="FechaDeclaracion" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <p class=" m-4">@Model.Formulario.PiePagina</p>
+            <div class="text-center m-3 btn-Control-Form">
+                <a onclick=" imprimir() " class="btn btn-primary m-2">Imprimir</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    <script src="~/js/DeclaracionView.js"></script>
+}
+}
